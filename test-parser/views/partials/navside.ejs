@@ -1,0 +1,44 @@
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+	<div class="sidebar-sticky">
+		<ul class="nav flex-column">
+			<li class="nav-item">
+				<a id="home" class="nav-link" href="/dashboard">
+					<span data-feather="home"></span>
+					Dashboard
+				</a>
+			</li>
+			<li class="nav-item">
+				<a id="live" class="nav-link" href="/dashboard/live-results">
+					<span data-feather="thermometer"></span>
+					Live Results
+				</a>
+			</li>
+      <li class="nav-item">
+        <a id="upload" class="nav-link" href="/dashboard/upload-results">
+          <span data-feather="upload-cloud"></span>
+          Upload Results
+        </a>
+      </li>
+		</ul>
+		<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+			<span>Saved reports</span>
+			<a class="d-flex align-items-center text-muted" href="#">
+				<span data-feather="plus-circle"></span>
+			</a>
+		</h6>
+		<ul class="nav flex-column mb-2">
+			<li class="nav-item">
+				<a id="latest" class="nav-link" href="/dashboard/latest-results">
+					<span data-feather="file-text"></span>
+					Latest Upload
+				</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+	feather.replace()
+</script>
+<script src="../public/scripts/nav-sidebar.js"></script>
