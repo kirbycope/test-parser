@@ -30,3 +30,11 @@ function loginCallbackFunction() {
     }
     document.getElementById("buttonSubmit").disabled = false;
 }
+
+function resetLogoutUrl() {
+    if (window.location.pathname === "/logout") {
+        window.location.pathname = "/";
+    }
+}
+
+resetLogoutUrl();

@@ -185,6 +185,7 @@ router.post("/users/login", function (req, res) {
             var formPass = req.body.password;
             // Handle credentials
             if (dbUser === formUser && dbPass === formPass) {
+                res.cookie("user", dbUser);
                 res.send(200);
             }
             else {

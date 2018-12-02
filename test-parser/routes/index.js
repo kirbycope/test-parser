@@ -3,7 +3,7 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET 'index' (home) page. */
+// Home page
 router.get('/', function (req, res) {
     res.render('index', {
         static_path: 'public',
@@ -12,9 +12,19 @@ router.get('/', function (req, res) {
     });
 });
 
-// Log the current user out
+// Login page
+router.get('/login', function (req, res) {
+    res.clearCookie("user");
+    res.render('index', {
+        static_path: 'public',
+        theme: process.env.THEME || 'default',
+        flask_debug: process.env.FLASK_DEBUG || 'false'
+    });
+});
+
+// Logout page
 router.get('/logout', function (req, res) {
-    // TODO: logout
+    res.clearCookie("user");
     res.render('index', {
         static_path: 'public',
         theme: process.env.THEME || 'default',

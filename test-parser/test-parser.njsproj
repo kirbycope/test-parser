@@ -37,7 +37,7 @@
     <Compile Include="public\scripts\latest-results.js" />
     <Compile Include="public\scripts\live-results-summary.js" />
     <Compile Include="public\scripts\live-results.js" />
-    <Compile Include="public\scripts\login.js" />
+    <Compile Include="public\scripts\index.js" />
     <Compile Include="public\scripts\nav-top.js" />
     <Compile Include="public\scripts\test-detail.js" />
     <Compile Include="public\scripts\upload-results.js" />
