@@ -19,6 +19,7 @@ function liveSummaryCallbackFunction() {
     var total = responseObject.length;
     passed = 0;
     failed = 0;
+    
     var durationHours = 0;
     var durationMinutes = 0;
     var durationSeconds = 0;
@@ -40,11 +41,13 @@ function liveSummaryCallbackFunction() {
     var totalSeconds = minutesAsSeconds + hoursAsSeconds + durationSeconds;
     var date = new Date(null);
     date.setSeconds(totalSeconds);
+    var passedPercentage = " (" + ((passed / total) * 100).toString().substring(0, 4) + "%)";
+    var failedPercentage = " (" + ((failed / total) * 100).toString().substring(0, 4)  + "%)";
     // Display the results
     drawChart();
     document.getElementById("liveTotal").innerText = total;
-    document.getElementById("livePassed").innerText = passed;
-    document.getElementById("liveFailed").innerText = failed;
+    document.getElementById("livePassed").innerText = passed + passedPercentage;
+    document.getElementById("liveFailed").innerText = failed + failedPercentage;
     document.getElementById("duration").innerText = date.toISOString().substr(11, 8);
 }
 

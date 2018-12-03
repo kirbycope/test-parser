@@ -12,14 +12,30 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 
 /* LIVE RESULTS ****************************************************/
 
-// Get all "live" test results
-router.get("/liveresults", function (req, res) {
+function getAllLiveResults(callback) {
     // DynamoDB Object
     var params = {
         TableName: "liveresults"
     };
     // GET all the Objects from the DataBase
-    docClient.scan(params, function (err, data) {
+    docClient.scan(params, callback);
+}
+
+function deleteLiveResult(test, callback) {
+    // DynamoDB Object
+    var params = {
+        TableName: "liveresults",
+        Key: {
+            "test": test
+        }
+    };
+    // Delete the Object from the DataBase
+    docClient.delete(params, callback);
+}
+
+// Get all "live" test results
+router.get("/liveresults", function (req, res) {
+    getAllLiveResults(function (err, data) {
         // If the DB request returned an error
         if (err) {
             // Return the error to the user
@@ -28,6 +44,22 @@ router.get("/liveresults", function (req, res) {
         else {
             // Send the data
             res.send(data.Items);
+        }
+    });
+});
+
+// Delete all "live" test results
+router.delete("/liveresults", function (req, res) {
+    getAllLiveResults(function (err, data) {
+        // If the DB request returned an error
+        if (err) {
+            // Return the error to the user
+            res.send(err);
+        }
+        else {
+            for (var item in data.Items) {
+                // TODO: foreach, delete
+            }
         }
     });
 });
@@ -104,15 +136,7 @@ router.get("/liveresults/:test", function (req, res) {
 router.delete("/liveresults/:test", function (req, res) {
     // As a pseudo-security measure, require a Request Header with an email address
     if (req.headers["user"]) {
-        // DynamoDB Object
-        var params = {
-            TableName: "liveresults",
-            Key: {
-                "test": req.params.test
-            }
-        };
-        // Delete the Object from the DataBase
-        docClient.delete(params, function (err, data) {
+        deleteLiveResult(req.params.test, function (err, data) {
             // If the DB request returned an error
             if (err) {
                 // Return the error to the user
