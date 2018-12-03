@@ -33,7 +33,35 @@ router.get("/liveresults", function (req, res) {
 });
 
 // Create: /api/liveresults
-// TODO
+router.post("/liveresults", function (req, res) {
+    // Check for 'user' header
+    if (req.cookies.user) {
+        // Define DB item
+        var unitTestResult = {
+            testName: req.body.testName,
+            testClass: req.body.testClass,
+            computerName: req.body.computerName,
+            duration: req.body.duration,
+            startTime: req.body.startTime,
+            endTime: req.body.endTime,
+            outcome: req.body.outcome,
+            message: req.body.message
+        };
+        try {
+            // Send the item to the DB
+            updateDBO("liveresults", unitTestResult);
+            // Return the response from the DB
+            res.send(data.Items);
+        }
+        catch (err) {
+            // Return the error to the user
+            res.send(err);
+        }
+    }
+    else {
+        res.send(401);
+    }
+});
 
 // Read: /api/liveresults/test001
 router.get("/liveresults/:testName", function (req, res) {
