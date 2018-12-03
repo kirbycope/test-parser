@@ -38,6 +38,7 @@ router.post("/liveresults", function (req, res) {
     if (req.headers.user) {
         // Define DB item
         var unitTestResult = {
+            test: req.body.test,
             testName: req.body.testName,
             testClass: req.body.testClass,
             computerName: req.body.computerName,
