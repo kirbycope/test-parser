@@ -48,15 +48,14 @@ router.post("/liveresults", function (req, res) {
             outcome: req.body.outcome,
             message: req.body.message
         };
-        try {
-            // Send the item to the DB
-            updateDBO("liveresults", unitTestResult);
-            // Return the response from the DB
-            res.send(data.Items);
+        // Send the item to the DB
+        var result = updateDBO("liveresults", unitTestResult);
+        // Return the response from the DB
+        if (result === typeof AWS.AWSError) {
+            res.send(500, err);
         }
-        catch (err) {
-            // Return the error to the user
-            res.send(err);
+        else {
+            res.send(200, result);
         }
     }
     else {
@@ -238,7 +237,10 @@ function updateDBO(tableName, item) {
         // If the DB request returned an error
         if (err) {
             // Return the error to the user
-            res.send(err);
+            return err;
+        }
+        else {
+            return data;
         }
     });
 }
