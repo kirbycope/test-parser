@@ -35,7 +35,7 @@ router.get("/liveresults", function (req, res) {
 // Create: /api/liveresults
 router.post("/liveresults", function (req, res) {
     // Check for 'user' header
-    if (req.cookies.user) {
+    if (req.headers.user) {
         // Define DB item
         var unitTestResult = {
             testName: req.body.testName,
