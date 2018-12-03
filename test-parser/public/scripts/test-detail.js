@@ -1,6 +1,6 @@
 var xhttpTest;
 
-function populateTestDetails(testName) {
+function populateTestDetails(test) {
     xhttpTest = new XMLHttpRequest();
     xhttpTest.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -40,4 +40,4 @@ function detailCallbackFunction() {
     }
 }
 
-populateTestDetails(testName);
+populateTestDetails(test);
