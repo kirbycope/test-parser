@@ -48,15 +48,23 @@ router.post("/liveresults", function (req, res) {
             outcome: req.body.outcome,
             message: req.body.message
         };
-        // Send the item to the DB
-        var result = updateDBO("liveresults", unitTestResult);
-        // Return the response from the DB
-        if (result === typeof AWS.AWSError) {
-            res.send(500, err);
-        }
-        else {
-            res.send(200, result);
-        }
+        // DynamoDB Object
+        var params = {
+            TableName: "liveresults",
+            Item: unitTestResult
+        };
+        // POST the Object to the DataBase
+        docClient.put(params, function (err, data) {
+            // If the DB request returned an error
+            if (err) {
+                // Return the error to the user
+                res.send(err);
+            }
+            else {
+                // Send the data
+                res.send(data.Item);
+            }
+        });
     }
     else {
         res.send(401);
@@ -235,7 +243,7 @@ function updateDBO(tableName, item) {
     // POST the Object to the DataBase
     docClient.put(params, function (err, data) {
         // If the DB request returned an error
-        if (err) {
+        if (data) {
             // Return the error to the user
             return err;
         }
