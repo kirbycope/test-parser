@@ -1,4 +1,6 @@
 var xhttpLiveSummary;
+var failed;
+var passed;
 
 function populateLiveResultsSummary() {
     xhttpLiveSummary = new XMLHttpRequest();
@@ -15,8 +17,8 @@ function liveSummaryCallbackFunction() {
     // Get the results
     var responseObject = JSON.parse(xhttpLiveSummary.responseText);
     var total = responseObject.length;
-    var passed = 0;
-    var failed = 0;
+    passed = 0;
+    failed = 0;
     var durationHours = 0;
     var durationMinutes = 0;
     var durationSeconds = 0;
@@ -25,13 +27,13 @@ function liveSummaryCallbackFunction() {
         if (responseObject[i].outcome === "Passed") {
             passed++;
         }
-        else if (responseObject[i].outcome === "Passed") {
+        else if (responseObject[i].outcome === "Failed") {
             failed++;
         }
         var duration = responseObject[i].duration;
         durationHours += parseInt(duration.substring(0, duration.indexOf(":")));
-        durationMinutes += parseInt(duration.substring(duration.indexOf(":") + 1, duration.lastIndexOf(":") - 1));
-        durationSeconds += parseInt(duration.substring(duration.lastIndexOf(":") + 1, duration.indexOf(".")));
+        durationMinutes += parseInt(duration.substring(duration.indexOf(":") + 1, duration.lastIndexOf(":")));
+        durationSeconds += parseInt(duration.substring(duration.lastIndexOf(":") + 1, duration.indexOf("."))); 
     }
     var minutesAsSeconds = durationMinutes * 60;
     var hoursAsSeconds = (durationHours * 60) * 60;
@@ -39,10 +41,38 @@ function liveSummaryCallbackFunction() {
     var date = new Date(null);
     date.setSeconds(totalSeconds);
     // Display the results
+    drawChart();
     document.getElementById("liveTotal").innerText = total;
     document.getElementById("livePassed").innerText = passed;
     document.getElementById("liveFailed").innerText = failed;
     document.getElementById("duration").innerText = date.toISOString().substr(11, 8);
 }
 
-populateLiveResultsSummary();
+function drawChart() {
+    var config = {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: [
+                    passed,
+                    failed
+                ],
+                backgroundColor: [
+                    '#d4edda',
+                    '#f8d7da'
+                ]
+            }],
+            labels: [
+                'Passed',
+                'Failed'
+            ]
+        },
+        options: {
+            responsive: true
+        }
+    };
+    var ctx = document.getElementById('chart-area').getContext('2d');
+    window.myPie = new Chart(ctx, config);
+}
+
+populateLiveResultsSummary(drawChart);
