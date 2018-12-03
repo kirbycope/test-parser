@@ -167,7 +167,7 @@ router.post("/users/login", function (req, res) {
     var params = {
         TableName: "users",
         Key: {
-            "username": req.body.username
+            "email": req.body.email
         }
     };
     // GET the Object from the DataBase
@@ -179,14 +179,15 @@ router.post("/users/login", function (req, res) {
         }
         else {
             // Define credentials
-            var dbUser = data.Item.username;
+            var dbEmail = data.Item.email;
             var dbPass = data.Item.password;
-            var formUser = req.body.username;
+            var dbUser = data.Item.username;
+            var formEmail = req.body.email;
             var formPass = req.body.password;
             // Handle credentials
-            if (dbUser === formUser && dbPass === formPass) {
+            if (dbEmail === formEmail && dbPass === formPass) {
                 res.cookie("user", dbUser);
-                res.send(200);
+                res.send(200, "/" + dbUser + "/dashboard/");
             }
             else {
                 res.send(401, "Invalid credentials.");

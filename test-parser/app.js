@@ -12,7 +12,6 @@ var bodyParser = require('body-parser');
 // Load the internal dependencies (.js files)
 var index = require('./routes/index');
 var api = require('./routes/api');
-var dashboard = require('./routes/dashboard');
 
 // Create an Express application
 var app = express();
@@ -34,7 +33,6 @@ app.use(fileUpload());
 // Setup app routes (controllers)
 app.use('/', index);
 app.use('/api', api);
-app.use('/dashboard', dashboard);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

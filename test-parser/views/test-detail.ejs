@@ -10,16 +10,19 @@
 		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/bootstrap.min.css" %>" rel="stylesheet">
 		<!-- Custom styles for this template -->
 		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/dashboard.css" %>" rel="stylesheet">
+		<!-- Data from controller -->
+		<script>
+			var testName = "<%= testName %>";
+		</script>
 	</head>
 	<body>
-		<%- include ../partials/navtop.ejs %>
+		<%- include ./partials/navtop.ejs %>
 		<div class="container-fluid">
-			<%- include ../partials/navside.ejs %>
+			<%- include ./partials/navside.ejs %>
+
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-					<h1 class="h2">Dashboard</h1>
-				</div>
-				<%- include ../partials/live-results-summary.ejs %>
+				<h1 class="h2">Test Detail</h1>
+				<%- include ./partials/test-detail.ejs %>
 			</main>
 		</div>
 	</body>

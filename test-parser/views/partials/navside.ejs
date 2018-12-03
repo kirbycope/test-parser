@@ -2,19 +2,19 @@
 	<div class="sidebar-sticky">
 		<ul class="nav flex-column">
 			<li class="nav-item">
-				<a id="home" class="nav-link" href="/dashboard">
-					<span data-feather="home"></span>
+				<a id="home" class="nav-link" href="/<%=user%>/dashboard">
+          <span data-feather="home"></span>
 					Dashboard
 				</a>
 			</li>
 			<li class="nav-item">
-				<a id="live" class="nav-link" href="/dashboard/live-results">
+				<a id="live" class="nav-link" href="/<%=user%>/live-results">
 					<span data-feather="thermometer"></span>
 					Live Results
 				</a>
 			</li>
       <li class="nav-item">
-        <a id="upload" class="nav-link" href="/dashboard/upload-results">
+        <a id="upload" class="nav-link" href="/<%=user%>/upload-results">
           <span data-feather="upload-cloud"></span>
           Upload Results
         </a>
@@ -28,7 +28,7 @@
 		</h6>
 		<ul class="nav flex-column mb-2">
 			<li class="nav-item">
-				<a id="latest" class="nav-link" href="/dashboard/latest-results">
+				<a id="latest" class="nav-link" href="/<%=user%>/latest-results">
 					<span data-feather="file-text"></span>
 					Latest Upload
 				</a>
@@ -41,4 +41,4 @@
 <script>
 	feather.replace()
 </script>
-<script src="../public/scripts/nav-sidebar.js"></script>
+<script src="/public/scripts/nav-sidebar.js"></script>

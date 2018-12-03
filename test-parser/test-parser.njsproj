@@ -42,20 +42,20 @@
     <Compile Include="public\scripts\test-detail.js" />
     <Compile Include="public\scripts\upload-results.js" />
     <Compile Include="routes\api.js" />
-    <Compile Include="routes\dashboard.js" />
     <Compile Include="routes\index.js" />
     <Content Include="config.json" />
     <Content Include="package.json" />
     <Content Include="public\bootstrap\css\theme\default\bootstrap.min.css" />
     <Content Include="public\bootstrap\css\theme\default\dashboard.css" />
     <Content Include="public\bootstrap\css\theme\default\signin.css" />
+    <Content Include="public\favicon.ico" />
     <Content Include="public\scripts\nav-sidebar.js" />
     <Content Include="README.md" />
-    <Content Include="views\dashboard\index.ejs" />
-    <Content Include="views\dashboard\latest-results.ejs" />
-    <Content Include="views\dashboard\live-results.ejs" />
-    <Content Include="views\dashboard\test-detail.ejs" />
-    <Content Include="views\dashboard\upload-results.ejs" />
+    <Content Include="views\dashboard.ejs" />
+    <Content Include="views\latest-results.ejs" />
+    <Content Include="views\live-results.ejs" />
+    <Content Include="views\test-detail.ejs" />
+    <Content Include="views\upload-results.ejs" />
     <Content Include="views\error.ejs" />
     <Content Include="views\index.ejs" />
     <Content Include="views\partials\latest-results-table.ejs" />
@@ -77,7 +77,6 @@
     <Folder Include="public\scripts\" />
     <Folder Include="routes\" />
     <Folder Include="views\" />
-    <Folder Include="views\dashboard\" />
     <Folder Include="views\partials\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->

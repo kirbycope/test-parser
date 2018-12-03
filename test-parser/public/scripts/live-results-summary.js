@@ -7,7 +7,7 @@ function populateLiveResultsSummary() {
             liveSummaryCallbackFunction();
         }
     };
-    xhttpLiveSummary.open("GET", "../api/liveresults", true);
+    xhttpLiveSummary.open("GET", "/api/liveresults", true);
     xhttpLiveSummary.send();
 }
 

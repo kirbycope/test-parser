@@ -21,7 +21,9 @@ function dashboardCallbackFunction() {
         // <td> - Page or View
         var pageView = responseObject[i].testClass;
         var testClass = document.createElement("td");
-        testClass.innerText = pageView.substring(pageView.lastIndexOf('.') + 1);
+        var testClassString = pageView.substring(pageView.lastIndexOf('.') + 1);
+        testClassString = testClassString.split(/(?=[A-Z])/).join(" ");
+        testClass.innerText = testClassString;
         row.appendChild(testClass);
         // <td> - Path
         var pathText = " ";
@@ -37,7 +39,7 @@ function dashboardCallbackFunction() {
         // <td> - Test Name
         var testName = document.createElement("td");
         var detailLink = document.createElement("a");
-        detailLink.href = "/dashboard/test-detail?testName=" + responseObject[i].testName;
+        detailLink.href = "./test-detail?testName=" + responseObject[i].testName;
         detailLink.innerText = responseObject[i].testName;
         testName.appendChild(detailLink);
         row.appendChild(testName);
@@ -47,11 +49,19 @@ function dashboardCallbackFunction() {
         row.appendChild(computerName);
         // <td> - Duration
         var duration = document.createElement("td");
-        duration.innerText = responseObject[i].duration;
+        var durationString = responseObject[i].duration;
+        durationString = durationString.substring(0, 12);
+        duration.innerText = durationString;
         row.appendChild(duration);
         // <td> - Start Time
         var startTime = document.createElement("td");
-        startTime.innerText = responseObject[i].startTime;
+        var startTimeString = responseObject[i].startTime;
+        var date = startTimeString.substring(0, startTimeString.indexOf("T"));
+        var time = startTimeString.substring(startTimeString.indexOf("T") + 1, startTimeString.indexOf("."));
+        var offset = startTimeString.substring(startTimeString.lastIndexOf(":") - 3, startTimeString.lastIndexOf(":"));
+        offset = offset.replace("-0", "-");
+        startTimeString = date + " " + time + " (" + offset + " UTC)";
+        startTime.innerText = startTimeString;
         row.appendChild(startTime);
         // <td> - Outcome
         var outcome = document.createElement("td");

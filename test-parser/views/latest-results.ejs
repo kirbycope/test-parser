@@ -12,13 +12,13 @@
 		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/dashboard.css" %>" rel="stylesheet">
 	</head>
 	<body>
-		<%- include ../partials/navtop.ejs %>
+		<%- include ./partials/navtop.ejs %>
 		<div class="container-fluid">
-			<%- include ../partials/navside.ejs %>
+			<%- include ./partials/navside.ejs %>
 
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 				<h1 class="h2">Latest Results</h1>
-				<%- include ../partials/latest-results-table.ejs %>
+				<%- include ./partials/latest-results-table.ejs %>
 			</main>
 		</div>
 	</body>
