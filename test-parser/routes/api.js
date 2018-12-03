@@ -37,16 +37,19 @@ router.post("/liveresults", function (req, res) {
     // Check for 'user' header
     if (req.headers.user) {
         // Define DB item
+        var bodyDescription = req.body.description || " ";
+        var bodyMessage = req.body.message || " ";
         var unitTestResult = {
             test: req.body.test,
             testName: req.body.testName,
             testClass: req.body.testClass,
             computerName: req.body.computerName,
+            description: bodyDescription,
             duration: req.body.duration,
             startTime: req.body.startTime,
             endTime: req.body.endTime,
             outcome: req.body.outcome,
-            message: req.body.message
+            message: bodyMessage
         };
         // DynamoDB Object
         var params = {
