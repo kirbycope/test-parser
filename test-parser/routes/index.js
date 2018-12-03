@@ -85,7 +85,7 @@ router.get('/:username/test-detail', function (req, res) {
             theme: process.env.THEME || 'default',
             flask_debug: process.env.FLASK_DEBUG || 'false',
             user: req.cookies.user,
-            testName: req.query.testName
+            test: req.query.test
         });
     }
     else {

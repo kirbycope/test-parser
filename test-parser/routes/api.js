@@ -74,13 +74,13 @@ router.post("/liveresults", function (req, res) {
     }
 });
 
-// Read: /api/liveresults/test001
-router.get("/liveresults/:testName", function (req, res) {
+// Read: /api/liveresults/namespace.classname.testname
+router.get("/liveresults/:test", function (req, res) {
     // DynamoDB Object
     var params = {
         TableName: "liveresults",
         Key: {
-            "testName": req.params.testName
+            "test": req.params.test
         }
     };
     // GET the Object from the DataBase
@@ -97,18 +97,18 @@ router.get("/liveresults/:testName", function (req, res) {
     });
 });
 
-// Update: /api/liveresults/test001
-// TODO
+// Update: /api/liveresults/namespace.classname.testname
+// Right now the POST acutally does a PUT and inserts if new.
 
-// Delete: /api/liveresults/test001
-router.delete("/liveresults/:testname", function (req, res) {
+// Delete: /api/liveresults/namespace.classname.testname
+router.delete("/liveresults/:test", function (req, res) {
     // As a pseudo-security measure, require a Request Header with an email address
-    if (req.headers["email"]) {
+    if (req.headers["user"]) {
         // DynamoDB Object
         var params = {
             TableName: "liveresults",
             Key: {
-                "testname": Number(req.params.testname)
+                "test": req.params.test
             }
         };
         // Delete the Object from the DataBase
@@ -190,13 +190,13 @@ router.post("/latestresults", function (req, res) {
 });
 
 // Read: /api/latestresults/test001
-//TODO
+// TODO
 
 // Update: /api/latestresults/teset001
-//TODO
+// Right now the POST acutally does a PUT and inserts if new.
 
 // Delete: /api/latestresults/teset001
-//TODO
+// TODO
 
 /* USERS ***********************************************************/
 

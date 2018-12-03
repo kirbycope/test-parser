@@ -39,7 +39,7 @@ function dashboardCallbackFunction() {
         // <td> - Test Name
         var testName = document.createElement("td");
         var detailLink = document.createElement("a");
-        detailLink.href = "./test-detail?testName=" + responseObject[i].testName;
+        detailLink.href = "./test-detail?test=" + responseObject[i].test;
         detailLink.innerText = responseObject[i].testName;
         testName.appendChild(detailLink);
         row.appendChild(testName);
@@ -55,13 +55,7 @@ function dashboardCallbackFunction() {
         row.appendChild(duration);
         // <td> - Start Time
         var startTime = document.createElement("td");
-        var startTimeString = responseObject[i].startTime;
-        var date = startTimeString.substring(0, startTimeString.indexOf("T"));
-        var time = startTimeString.substring(startTimeString.indexOf("T") + 1, startTimeString.indexOf("."));
-        var offset = startTimeString.substring(startTimeString.lastIndexOf(":") - 3, startTimeString.lastIndexOf(":"));
-        offset = offset.replace("-0", "-");
-        startTimeString = date + " " + time + " (" + offset + " UTC)";
-        startTime.innerText = startTimeString;
+        startTime.innerText = responseObject[i].startTime;
         row.appendChild(startTime);
         // <td> - Outcome
         var outcome = document.createElement("td");
