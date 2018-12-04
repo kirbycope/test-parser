@@ -10,6 +10,10 @@
 		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/bootstrap.min.css" %>" rel="stylesheet">
 		<!-- Custom styles for this template -->
 		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/dashboard.css" %>" rel="stylesheet">
+		<!-- Data from controller -->
+		<script>
+			var user = "<%= user %>";
+		</script>
 	</head>
 	<body>
 		<%- include ./partials/navtop.ejs %>

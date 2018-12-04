@@ -35,7 +35,9 @@ function deleteLiveResult(test, callback) {
 
 // Get all "live" test results
 router.get("/liveresults", function (req, res) {
-    getAllLiveResults(function (err, data) {
+    // Check for 'user' header
+    if (req.headers.user) {
+        getAllLiveResults(function (err, data) {
         // If the DB request returned an error
         if (err) {
             // Return the error to the user
@@ -45,12 +47,18 @@ router.get("/liveresults", function (req, res) {
             // Send the data
             res.send(data.Items);
         }
-    });
+        });
+    }
+    else {
+        res.send(401);
+    }
 });
 
 // Delete all "live" test results
 router.delete("/liveresults", function (req, res) {
-    getAllLiveResults(function (err, data) {
+    // Check for 'user' header
+    if (req.headers.user) {
+        getAllLiveResults(function (err, data) {
         // If the DB request returned an error
         if (err) {
             // Return the error to the user
@@ -61,7 +69,11 @@ router.delete("/liveresults", function (req, res) {
                 // TODO: foreach, delete
             }
         }
-    });
+        });
+    }
+    else {
+        res.send(401);
+    }
 });
 
 // Create: /api/liveresults
@@ -108,15 +120,17 @@ router.post("/liveresults", function (req, res) {
 
 // Read: /api/liveresults/namespace.classname.testname
 router.get("/liveresults/:test", function (req, res) {
-    // DynamoDB Object
-    var params = {
-        TableName: "liveresults",
-        Key: {
-            "test": req.params.test
-        }
-    };
-    // GET the Object from the DataBase
-    docClient.get(params, function (err, data) {
+    // Check for 'user' header
+    if (req.headers.user) {
+        // DynamoDB Object
+        var params = {
+            TableName: "liveresults",
+            Key: {
+                "test": req.params.test
+            }
+        };
+        // GET the Object from the DataBase
+        docClient.get(params, function (err, data) {
         // If the DB request returned an error
         if (err) {
             // Return the error to the user
@@ -126,7 +140,11 @@ router.get("/liveresults/:test", function (req, res) {
             // Send the data
             res.send(data.Item);
         }
-    });
+        });
+    }
+    else {
+        res.send(401);
+    }
 });
 
 // Update: /api/liveresults/namespace.classname.testname
@@ -134,7 +152,6 @@ router.get("/liveresults/:test", function (req, res) {
 
 // Delete: /api/liveresults/namespace.classname.testname
 router.delete("/liveresults/:test", function (req, res) {
-    // As a pseudo-security measure, require a Request Header with an email address
     if (req.headers["user"]) {
         deleteLiveResult(req.params.test, function (err, data) {
             // If the DB request returned an error
@@ -153,16 +170,18 @@ router.delete("/liveresults/:test", function (req, res) {
     }
 });
 
-/* LATEST RESULTS **************************************************/
+/* UPLOADED RESULTS **************************************************/
 
-// Get all "latest" test results
+// Get all "upload" test results
 router.get("/latestresults", function (req, res) {
-    // DynamoDB Object
-    var params = {
-        TableName: "latestresults"
-    };
-    // GET all the Objects from the DataBase
-    docClient.scan(params, function (err, data) {
+    // Check for 'user' header
+    if (req.headers.user) {
+        // DynamoDB Object
+        var params = {
+            TableName: "latestresults"
+        };
+        // GET all the Objects from the DataBase
+        docClient.scan(params, function (err, data) {
         // If the DB request returned an error
         if (err) {
             // Return the error to the user
@@ -172,15 +191,23 @@ router.get("/latestresults", function (req, res) {
             // Send the data
             res.send(data.Items);
         }
-    });
+        });
+    }
+    else {
+        res.send(401);
+    }
 });
+
+// Delete all "latest" test results
 
 // Create: /api/latestresults
 router.post("/latestresults", function (req, res) {
-    // Convert the file buffer to a string
-    var resultsFile = req.files.file.data.toString();
-    // Parse the string as JSON
-    parseString(resultsFile, function (err, result) {
+    // Check for 'user' header
+    if (req.headers.user) {
+        // Convert the file buffer to a string
+        var resultsFile = req.files.file.data.toString();
+        // Parse the string as JSON
+        parseString(resultsFile, function (err, result) {
         // Get all test results
         var unitTestResults = result.TestRun.Results[0].UnitTestResult;
         var testDefinitions = result.TestRun.TestDefinitions[0].UnitTest;
@@ -210,7 +237,11 @@ router.post("/latestresults", function (req, res) {
             updateDBO("latestresults", unitTestResult);
         }
         res.send("File uploaded!");
-    });
+        });
+    }
+    else {
+        res.send(401);
+    }
 });
 
 // Read: /api/latestresults/test001
@@ -247,16 +278,67 @@ router.post("/users/login", function (req, res) {
             var dbUser = data.Item.username;
             var formEmail = req.body.email;
             var formPass = req.body.password;
+            var lastLogin = new Date().toLocaleString();
             // Handle credentials
             if (dbEmail === formEmail && dbPass === formPass) {
                 res.cookie("user", dbUser);
-                res.send(200, "/" + dbUser + "/dashboard/");
+                // Update the lastlogin
+                var params2 = {
+                    TableName: "users",
+                    Key: {
+                        "email": req.body.email
+                    },
+                    UpdateExpression: "set lastLogin = :l",
+                    ExpressionAttributeValues: {
+                        ":l": lastLogin
+                    }
+                };
+                docClient.update(params2, function (err, data) {
+                    // If the DB request returned an error
+                    if (err) {
+                        // Return the error to the user
+                        res.send(err);
+                    }
+                    else {
+                        // Send the data
+                        res.send(200, "/" + dbUser + "/dashboard/");
+                    }
+                });
             }
             else {
                 res.send(401, "Invalid credentials.");
             }
         }
     });
+});
+
+router.get("/users/profile/:username", function (req, res) {
+    // Check for 'user' header
+    if (req.headers.user) {
+        // DynamoDB Object
+        var params = {
+            TableName: "users",
+            Key: {
+                "username": req.params.username
+            }
+        };
+        // GET all the Objects from the DataBase, matching the username
+        docClient.scan(params, function (err, data) {
+        // If the DB request returned an error
+        if (err) {
+            // Return the error to the user
+            res.send(err);
+        }
+        else {
+            data.Items[0].password = "";
+            // Send the data
+            res.send(data.Items[0]);
+        }
+        });
+    }
+    else {
+        res.send(401);
+    }
 });
 
 /* HELPERS *********************************************************/

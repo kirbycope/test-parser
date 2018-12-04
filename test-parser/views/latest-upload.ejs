@@ -10,6 +10,10 @@
 		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/bootstrap.min.css" %>" rel="stylesheet">
 		<!-- Custom styles for this template -->
 		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/dashboard.css" %>" rel="stylesheet">
+		<!-- Data from controller -->
+		<script>
+			var user = "<%= user %>";
+		</script>
 	</head>
 	<body>
 		<%- include ./partials/navtop.ejs %>
@@ -17,8 +21,8 @@
 			<%- include ./partials/navside.ejs %>
 
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-				<h1 class="h2">Latest Results</h1>
-				<%- include ./partials/latest-results-table.ejs %>
+				<h1 class="h2">Latest Upload</h1>
+				<%- include ./partials/latest-upload-table.ejs %>
 			</main>
 		</div>
 	</body>

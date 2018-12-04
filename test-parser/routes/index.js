@@ -27,10 +27,10 @@ router.get('/', function (req, res) {
     });
 });
 
-// Latest Results page
-router.get('/:username/latest-results', function (req, res) {
+// Latest Upload page
+router.get('/:username/latest-upload', function (req, res) {
     if (req.cookies.user) {
-        res.render('latest-results', {
+        res.render('latest-upload', {
             static_path: '/public',
             theme: process.env.THEME || 'default',
             flask_debug: process.env.FLASK_DEBUG || 'false',
@@ -63,7 +63,8 @@ router.get('/login', function (req, res) {
     res.render('index', {
         static_path: 'public',
         theme: process.env.THEME || 'default',
-        flask_debug: process.env.FLASK_DEBUG || 'false'
+        flask_debug: process.env.FLASK_DEBUG || 'false',
+        user: req.cookies.user
     });
 });
 
@@ -75,6 +76,21 @@ router.get('/logout', function (req, res) {
         theme: process.env.THEME || 'default',
         flask_debug: process.env.FLASK_DEBUG || 'false'
     });
+});
+
+// Profile page
+router.get('/:username/profile', function (req, res) {
+    if (req.cookies.user) {
+        res.render('profile', {
+            static_path: '/public',
+            theme: process.env.THEME || 'default',
+            flask_debug: process.env.FLASK_DEBUG || 'false',
+            user: req.cookies.user
+        });
+    }
+    else {
+        res.send(401);
+    }
 });
 
 // Test Detail page
@@ -100,8 +116,7 @@ router.get('/:username/upload-results', function (req, res) {
             static_path: '/public',
             theme: process.env.THEME || 'default',
             flask_debug: process.env.FLASK_DEBUG || 'false',
-            user: req.cookies.user,
-            testName: req.query.testName
+            user: req.cookies.user
         });
     }
     else {

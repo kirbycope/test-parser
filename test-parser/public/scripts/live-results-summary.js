@@ -10,6 +10,7 @@ function populateLiveResultsSummary() {
         }
     };
     xhttpLiveSummary.open("GET", "/api/liveresults", true);
+    xhttpLiveSummary.setRequestHeader("user", user);
     xhttpLiveSummary.send();
 }
 

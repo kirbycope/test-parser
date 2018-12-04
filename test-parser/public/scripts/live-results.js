@@ -10,6 +10,7 @@ function populateLiveResultsTable() {
         }
     };
     xhttpLive.open("GET", "../api/liveresults", true);
+    xhttpLive.setRequestHeader("user", user);
     xhttpLive.send();
 }
 
@@ -40,6 +41,7 @@ function dashboardCallbackFunction() {
         var testName = document.createElement("td");
         var detailLink = document.createElement("a");
         detailLink.href = "./test-detail?test=" + responseObject[i].test;
+        detailLink.title = "View details for test " + responseObject[i].testName;
         detailLink.innerText = responseObject[i].testName;
         testName.appendChild(detailLink);
         row.appendChild(testName);
@@ -66,8 +68,8 @@ function dashboardCallbackFunction() {
         message.innerText = responseObject[i].message || "";
         row.appendChild(message);
         // Style the row based on Outcome
-        if (outcome.innerText === "Passed") { row.setAttribute("class", "alert-success"); }
-        else if (outcome.innerText === "Failed") { row.setAttribute("class", "alert-danger"); }
+        if (outcome.innerText === "Passed") { row.setAttribute("class", "table-success"); }
+        else if (outcome.innerText === "Failed") { row.setAttribute("class", "table-danger"); }
         // Appened the row to the <tbody>
         document.getElementById("resultsTable").appendChild(row);
     }

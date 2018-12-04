@@ -1,19 +1,19 @@
-var xhttpTestDetail;
+var xhttpProfile;
 
-function populateTestDetails(test) {
-    xhttpTestDetail = new XMLHttpRequest();
-    xhttpTestDetail.onreadystatechange = function () {
+function populateProfileDetails(user) {
+    xhttpProfile = new XMLHttpRequest();
+    xhttpProfile.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            detailCallbackFunction();
+            profileCallbackFunction();
         }
     };
-    xhttpTestDetail.open("GET", "../api/liveresults/" + test, true);
-    xhttpTestDetail.setRequestHeader("user", user);
-    xhttpTestDetail.send();
+    xhttpProfile.open("GET", "../api/users/profile/" + user, true);
+    xhttpProfile.setRequestHeader("user", user);
+    xhttpProfile.send();
 }
 
-function detailCallbackFunction() {
-    var responseObject = JSON.parse(xhttpTestDetail.responseText);
+function profileCallbackFunction() {
+    var responseObject = JSON.parse(xhttpProfile.responseText);
     for (var property in responseObject) {
         var propertyName = property.toString();
 
@@ -41,4 +41,4 @@ function detailCallbackFunction() {
     }
 }
 
-populateTestDetails(test);
+populateProfileDetails(user);

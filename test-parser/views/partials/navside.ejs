@@ -2,37 +2,34 @@
 	<div class="sidebar-sticky">
 		<ul class="nav flex-column">
 			<li class="nav-item">
-				<a id="home" class="nav-link" href="/<%=user%>/dashboard">
-          <span data-feather="home"></span>
+				<a id="home" class="nav-link" title="Dashboard" href="/<%=user%>/dashboard">
+          <span data-feather="layout"></span>
 					Dashboard
 				</a>
 			</li>
 			<li class="nav-item">
-				<a id="live" class="nav-link" href="/<%=user%>/live-results">
+				<a id="live" class="nav-link" title="Live Results" href="/<%=user%>/live-results">
 					<span data-feather="thermometer"></span>
 					Live Results
 				</a>
 			</li>
-      <li class="nav-item">
-        <a id="upload" class="nav-link" href="/<%=user%>/upload-results">
-          <span data-feather="upload-cloud"></span>
-          Upload Results
-        </a>
-      </li>
 		</ul>
 		<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-			<span>Saved reports</span>
-			<a class="d-flex align-items-center text-muted" href="#">
-				<span data-feather="plus-circle"></span>
-			</a>
+      <span>Results Upload</span>
 		</h6>
 		<ul class="nav flex-column mb-2">
 			<li class="nav-item">
-				<a id="latest" class="nav-link" href="/<%=user%>/latest-results">
+				<a id="latest" class="nav-link" title="Latest Upload" href="/<%=user%>/latest-upload">
 					<span data-feather="file-text"></span>
 					Latest Upload
 				</a>
 			</li>
+      <li class="nav-item">
+        <a id="upload" class="nav-link" title="Upload Results" href="/<%=user%>/upload-results">
+          <span data-feather="upload-cloud"></span>
+          Upload Results
+        </a>
+      </li>
 		</ul>
 	</div>
 </nav>

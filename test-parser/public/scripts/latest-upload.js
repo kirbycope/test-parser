@@ -10,6 +10,7 @@ function populateLatestResultsTable() {
         }
     };
     xhttpLatest.open("GET", "../api/latestresults", true);
+    xhttpLatest.setRequestHeader("user", user);
     xhttpLatest.send();
 }
 
