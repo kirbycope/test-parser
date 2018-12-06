@@ -35,6 +35,7 @@
     <Compile Include="public\bootstrap\js\bootstrap.min.js" />
     <Compile Include="public\chartjs\Chart.min.js" />
     <Compile Include="public\jquery\jquery-3.3.1.min.js" />
+    <Compile Include="public\listjs\list.min.js" />
     <Compile Include="public\scripts\latest-upload.js" />
     <Compile Include="public\scripts\live-results-summary.js" />
     <Compile Include="public\scripts\live-results.js" />
@@ -79,6 +80,7 @@
     <Folder Include="public\bootstrap\js\" />
     <Folder Include="public\jquery\" />
     <Folder Include="public\chartjs\" />
+    <Folder Include="public\listjs\" />
     <Folder Include="public\scripts\" />
     <Folder Include="routes\" />
     <Folder Include="views\" />
