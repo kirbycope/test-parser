@@ -1,38 +1,41 @@
-var xhttpLiveSummary;
+var xhttpLatestResultsSummary;
 var failed;
 var passed;
 
-function populateLiveResultsSummary() {
-    xhttpLiveSummary = new XMLHttpRequest();
-    xhttpLiveSummary.onreadystatechange = function () {
+function populateLastestResultsSummary() {
+    xhttpLatestResultsSummary = new XMLHttpRequest();
+    xhttpLatestResultsSummary.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            liveSummaryCallbackFunction();
+            latestResultsSummaryCallbackFunction();
         }
     };
-    xhttpLiveSummary.open("GET", "/api/liveresults", true);
-    xhttpLiveSummary.setRequestHeader("user", user);
-    xhttpLiveSummary.send();
+    xhttpLatestResultsSummary.open("GET", "/api/results/latest", true);
+    xhttpLatestResultsSummary.setRequestHeader("username", username);
+    xhttpLatestResultsSummary.send();
 }
 
-function liveSummaryCallbackFunction() {
+function latestResultsSummaryCallbackFunction() {
     // Get the results
-    var responseObject = JSON.parse(xhttpLiveSummary.responseText);
-    var total = responseObject.length;
+    var resultSet = JSON.parse(xhttpLatestResultsSummary.responseText);
+    var recordsInSet = resultSet[[Object.keys(resultSet)[0]]];
+    var total = recordsInSet.length;
+    // [Re]Set counters
     passed = 0;
     failed = 0;
-    
     var durationHours = 0;
     var durationMinutes = 0;
     var durationSeconds = 0;
+
     // Parse the results
     for (var i = 0; i < total; i++) {
-        if (responseObject[i].outcome === "Passed") {
+        var currentRecord = recordsInSet[i];
+        if (currentRecord.outcome === "Passed") {
             passed++;
         }
-        else if (responseObject[i].outcome === "Failed") {
+        else if (currentRecord.outcome === "Failed") {
             failed++;
         }
-        var duration = responseObject[i].duration;
+        var duration = currentRecord.duration;
         durationHours += parseInt(duration.substring(0, duration.indexOf(":")));
         durationMinutes += parseInt(duration.substring(duration.indexOf(":") + 1, duration.lastIndexOf(":")));
         durationSeconds += parseInt(duration.substring(duration.lastIndexOf(":") + 1, duration.indexOf("."))); 
@@ -46,9 +49,9 @@ function liveSummaryCallbackFunction() {
     var failedPercentage = " (" + ((failed / total) * 100).toString().substring(0, 4)  + "%)";
     // Display the results
     drawChart();
-    document.getElementById("liveTotal").innerText = total;
-    document.getElementById("livePassed").innerText = passed + passedPercentage;
-    document.getElementById("liveFailed").innerText = failed + failedPercentage;
+    document.getElementById("latestTotal").innerText = total;
+    document.getElementById("latestPassed").innerText = passed + passedPercentage;
+    document.getElementById("latestFailed").innerText = failed + failedPercentage;
     document.getElementById("duration").innerText = date.toISOString().substr(11, 8);
 }
 
@@ -79,4 +82,4 @@ function drawChart() {
     window.myPie = new Chart(ctx, config);
 }
 
-populateLiveResultsSummary(drawChart);
+populateLastestResultsSummary();

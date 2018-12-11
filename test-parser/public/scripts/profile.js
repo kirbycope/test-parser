@@ -1,14 +1,14 @@
 var xhttpProfile;
 
-function populateProfileDetails(user) {
+function populateProfileDetails(username) {
     xhttpProfile = new XMLHttpRequest();
     xhttpProfile.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             profileCallbackFunction();
         }
     };
-    xhttpProfile.open("GET", "../api/users/profile/" + user, true);
-    xhttpProfile.setRequestHeader("user", user);
+    xhttpProfile.open("GET", "/api/users/profile", true);
+    xhttpProfile.setRequestHeader("username", username);
     xhttpProfile.send();
 }
 
@@ -41,4 +41,4 @@ function profileCallbackFunction() {
     }
 }
 
-populateProfileDetails(user);
+populateProfileDetails(username);

@@ -10,7 +10,7 @@ input.addEventListener("keyup", function (event) {
         var testName = event.target.value;
         if (testName.length > 0) {
             // TODO search for a record, but for now just you the value as a qs param
-            window.location = "/" + getCookie("user") + "/test-detail?testName=" + testName;
+            window.location = "/" + getCookie("username") + "/test-detail?testName=" + testName;
         }
     }
 });
@@ -19,5 +19,5 @@ input.addEventListener("keyup", function (event) {
 function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
+    if (parts.length === 2) return parts.pop().split(";").shift();
 }

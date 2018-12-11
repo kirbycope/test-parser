@@ -1,5 +1,3 @@
-// Purpose: To upload a results file and then display the results
-
 var xhttpUpload;
 
 function submitUploadForm() {
@@ -12,8 +10,8 @@ function submitUploadForm() {
             uploadCallbackFunction();
         }
     };
-    xhttpUpload.open("POST", "../api/latestresults", true);
-    xhttpUpload.setRequestHeader("user", user);
+    xhttpUpload.open("POST", "/api/upload", true);
+    xhttpUpload.setRequestHeader("username", username);
     xhttpUpload.send(formData);
     return false;
 }
@@ -21,6 +19,6 @@ function submitUploadForm() {
 function uploadCallbackFunction() {
     document.getElementById("buttonSubmit").disabled = false;
     if (xhttpUpload.responseText === "File uploaded!") {
-        window.location = "/dashboard/latest-results";
+        window.location = "/dashboard/latest-upload";
     }
 }

@@ -5,12 +5,12 @@ var router = express.Router();
 
 // Dashboard page
 router.get('/:username/dashboard', function (req, res) {
-    if (req.cookies.user) {
+    if (req.cookies.username) {
         res.render('dashboard', {
             static_path: '/public',
             theme: process.env.THEME || 'default',
             flask_debug: process.env.FLASK_DEBUG || 'false',
-            user: req.cookies.user
+            username: req.cookies.username
         });
     }
     else {
@@ -29,12 +29,12 @@ router.get('/', function (req, res) {
 
 // Latest Upload page
 router.get('/:username/latest-upload', function (req, res) {
-    if (req.cookies.user) {
+    if (req.cookies.username) {
         res.render('latest-upload', {
             static_path: '/public',
             theme: process.env.THEME || 'default',
             flask_debug: process.env.FLASK_DEBUG || 'false',
-            user: req.cookies.user
+            username: req.cookies.username
         });
     }
     else {
@@ -43,13 +43,13 @@ router.get('/:username/latest-upload', function (req, res) {
 });
 
 // Live Results page
-router.get('/:username/live-results', function (req, res) {
-    if (req.cookies.user) {
-        res.render('live-results', {
+router.get('/:username/latest-results', function (req, res) {
+    if (req.cookies.username) {
+        res.render('latest-results', {
             static_path: '/public',
             theme: process.env.THEME || 'default',
             flask_debug: process.env.FLASK_DEBUG || 'false',
-            user: req.cookies.user
+            username: req.cookies.username
         });
     }
     else {
@@ -64,7 +64,7 @@ router.get('/login', function (req, res) {
         static_path: 'public',
         theme: process.env.THEME || 'default',
         flask_debug: process.env.FLASK_DEBUG || 'false',
-        user: req.cookies.user
+        username: req.cookies.username
     });
 });
 
@@ -80,12 +80,12 @@ router.get('/logout', function (req, res) {
 
 // Profile page
 router.get('/:username/profile', function (req, res) {
-    if (req.cookies.user) {
+    if (req.cookies.username) {
         res.render('profile', {
             static_path: '/public',
             theme: process.env.THEME || 'default',
             flask_debug: process.env.FLASK_DEBUG || 'false',
-            user: req.cookies.user
+            username: req.cookies.username
         });
     }
     else {
@@ -95,12 +95,12 @@ router.get('/:username/profile', function (req, res) {
 
 // Test Detail page
 router.get('/:username/test-detail', function (req, res) {
-    if (req.cookies.user) {
+    if (req.cookies.username) {
         res.render('test-detail', {
             static_path: '/public',
             theme: process.env.THEME || 'default',
             flask_debug: process.env.FLASK_DEBUG || 'false',
-            user: req.cookies.user,
+            username: req.cookies.username,
             test: req.query.test
         });
     }
@@ -111,12 +111,12 @@ router.get('/:username/test-detail', function (req, res) {
 
 // Upload Results page
 router.get('/:username/upload-results', function (req, res) {
-    if (req.cookies.user) {
+    if (req.cookies.username) {
         res.render('upload-results', {
             static_path: '/public',
             theme: process.env.THEME || 'default',
             flask_debug: process.env.FLASK_DEBUG || 'false',
-            user: req.cookies.user
+            username: req.cookies.username
         });
     }
     else {

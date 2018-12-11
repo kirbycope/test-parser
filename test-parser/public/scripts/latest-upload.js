@@ -1,21 +1,19 @@
-// Purpose: To Get/Show records from the [latestresults] DB
+var xhttpLatestUpload;
 
-var xhttpLatest;
-
-function populateLatestResultsTable() {
-    xhttpLatest = new XMLHttpRequest();
-    xhttpLatest.onreadystatechange = function () {
+function populateLatestUploadTable() {
+    xhttpLatestUpload = new XMLHttpRequest();
+    xhttpLatestUpload.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            latestCallbackFunction();
+            latestUploadCallbackFunction();
         }
     };
-    xhttpLatest.open("GET", "../api/latestresults", true);
-    xhttpLatest.setRequestHeader("user", user);
-    xhttpLatest.send();
+    xhttpLatestUpload.open("GET", "../api/uploads/latest", true);
+    xhttpLatestUpload.setRequestHeader("username", username);
+    xhttpLatestUpload.send();
 }
 
-function latestCallbackFunction() {
-    var responseObject = JSON.parse(xhttpLatest.responseText);
+function latestUploadCallbackFunction() {
+    var responseObject = JSON.parse(xhttpLatestUpload.responseText);
     for (var i = 0; i < responseObject.length; i++) {
         // Create a new row
         var row = document.createElement("tr");
@@ -56,4 +54,4 @@ function latestCallbackFunction() {
     }
 }
 
-populateLatestResultsTable();
+populateLatestUploadTable();
