@@ -10,6 +10,48 @@ AWS.config.update({ endpoint: "https://dynamodb.us-east-1.amazonaws.com" });
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 /**
+ * @api {post} /api/results
+ * @apiName PostResults
+ * @apiGroup Results
+ * @apiDescription Insert a record into the 'results' database for the given unix time stamp and current user.
+ *  
+ * @apiHeader (Authentication) {String} username Username
+ * 
+ * @apiParam {Number} unixtimestamp A Unix Time stamp.
+ */
+router.post("/", function (req, res) {
+    // Check for 'username' header
+    if (req.headers.username) {
+        var item = {
+            unixtimestamp: req.body.unixtimestamp,
+            username: req.headers.username
+        };
+        // DynamoDB Object
+        var params = {
+            TableName: "results",
+            Item: item
+        };
+        // POST the Object to the DataBase
+        docClient.put(params, function (err, data) {
+            // If the DB request returned an error
+            if (err) {
+                // Return the error to the user
+                res.send(err);
+            }
+            else {
+                // Response: (200 OK) Send the data as the response body.
+                res.send(data);
+            }
+        });
+    }
+    // The 'user' header is not present
+    else {
+        // Return the error to the user
+        res.send(401);
+    }
+});
+
+/**
  * @api {put} /api/results/:unixtimestamp
  * @apiName PutResults
  * @apiGroup Results
