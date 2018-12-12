@@ -37,16 +37,19 @@
     <Compile Include="public\jquery\jquery-3.3.1.min.js" />
     <Compile Include="public\listjs\list.min.js" />
     <Compile Include="public\scripts\latest-upload.js" />
-    <Compile Include="public\scripts\latest-results-summary.js" />
+    <Compile Include="public\scripts\live-results-summary.js" />
     <Compile Include="public\scripts\live-results.js" />
     <Compile Include="public\scripts\index.js" />
+    <Compile Include="public\scripts\main-results.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="public\scripts\main.js" />
     <Compile Include="public\scripts\nav-top.js" />
     <Compile Include="public\scripts\profile.js" />
     <Compile Include="public\scripts\results.js" />
     <Compile Include="public\scripts\test-detail.js" />
     <Compile Include="public\scripts\upload-results.js" />
-    <Compile Include="routes\api.js" />
+    <Compile Include="routes\api\live.js" />
     <Compile Include="routes\api\results.js" />
     <Compile Include="routes\api\uploads.js" />
     <Compile Include="routes\api\users.js" />
@@ -62,7 +65,7 @@
     <Content Include="README.md" />
     <Content Include="views\dashboard.ejs" />
     <Content Include="views\latest-upload.ejs" />
-    <Content Include="views\live-results.ejs" />
+    <Content Include="views\live.ejs" />
     <Content Include="views\partials\profile.ejs" />
     <Content Include="views\partials\results-summary-span.ejs" />
     <Content Include="views\partials\results-table.ejs" />
@@ -73,7 +76,7 @@
     <Content Include="views\error.ejs" />
     <Content Include="views\index.ejs" />
     <Content Include="views\partials\latest-upload-table.ejs" />
-    <Content Include="views\partials\latest-results-summary.ejs" />
+    <Content Include="views\partials\live-results-summary.ejs" />
     <Content Include="views\partials\test-detail.ejs" />
     <Content Include="views\partials\upload-results-form.ejs" />
     <Content Include="views\partials\live-results-table.ejs" />

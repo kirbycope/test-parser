@@ -107,6 +107,7 @@ var docClient = new AWS.DynamoDB.DocumentClient();
     router.post("/", function (req, res) {
         // Check for 'username' header
         if (req.headers.username) {
+            // Define DB item
             var item = {
                 unixtimestamp: req.body.unixtimestamp,
                 username: req.headers.username
@@ -124,8 +125,8 @@ var docClient = new AWS.DynamoDB.DocumentClient();
                     res.send(err);
                 }
                 else {
-                    // Response: (200 OK) Send the data as the response body.
-                    res.send(data);
+                    // Send the data
+                    res.status(200).send(data);
                 }
             });
         }

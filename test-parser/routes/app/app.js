@@ -33,10 +33,10 @@ router.get('/latest-upload', function (req, res) {
     }
 });
 
-// Live Results page "./app/live-results"
-router.get('/live-results', function (req, res) {
+// Live Results page "./app/live"
+router.get('/live', function (req, res) {
     if (req.cookies.username) {
-        res.render('live-results', {
+        res.render('live', {
             static_path: '/public',
             theme: process.env.THEME || 'default',
             flask_debug: process.env.FLASK_DEBUG || 'false',

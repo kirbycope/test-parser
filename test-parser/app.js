@@ -12,7 +12,7 @@ var bodyParser = require('body-parser');
 // Load the internal dependencies (.js files)
 var index = require('./routes/index');
 var webapp = require('./routes/app/app');
-var webapi = require('./routes/api');
+var live = require('./routes/api/live');
 var results = require('./routes/api/results');
 var uploads = require('./routes/api/uploads');
 var users = require('./routes/api/users');
@@ -39,7 +39,7 @@ app.use('/', index);
 app.use('/app', webapp);
 
 // Setup web api routes (controllers)
-app.use('/api', webapi);
+app.use('/api/live', live);
 app.use('/api/results', results);
 app.use('/api/uploads', uploads);
 app.use('/api/users', users);
