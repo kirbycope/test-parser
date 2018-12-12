@@ -60,7 +60,7 @@ router.post("/login", function (req, res) {
                     }
                     else {
                         // Send the data
-                        res.send(200, "/" + dbUser + "/dashboard/");
+                        res.status(200).send("/app/dashboard/");
                     }
                 });
             }
@@ -106,7 +106,7 @@ router.get("/profile", function (req, res) {
     // The 'user' header is not present
     else {
         // Return the error to the user
-        res.send(401);
+        res.status(401).send();
     }
 });
 

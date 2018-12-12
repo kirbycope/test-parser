@@ -2,30 +2,34 @@
 	<div class="sidebar-sticky">
 		<ul class="nav flex-column">
 			<li class="nav-item">
-				<a id="home" class="nav-link" title="Dashboard" href="/<%=username%>/dashboard">
+				<a id="home" class="nav-link" title="Dashboard" href="/app/dashboard">
           <span data-feather="layout"></span>
 					Dashboard
 				</a>
 			</li>
 			<li class="nav-item">
-				<a id="latestResults" class="nav-link" title="Latest Results" href="/<%=username%>/latest-results">
+				<a id="liveResults" class="nav-link" title="Live Results" href="/app/live-results">
 					<span data-feather="thermometer"></span>
-					Latest Results
+					Live Results
 				</a>
 			</li>
 		</ul>
+    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+      <span>Results</span>
+    </h6>
+    <ul id="resultsSets" class="nav flex-column mb-2"></ul>
 		<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-      <span>Results Upload</span>
+      <span>Uploads</span>
 		</h6>
 		<ul class="nav flex-column mb-2">
 			<li class="nav-item">
-				<a id="latestUpload" class="nav-link" title="Latest Upload" href="/<%=username%>/latest-upload">
+				<a id="latestUpload" class="nav-link" title="Latest Upload" href="/app/latest-upload">
 					<span data-feather="file-text"></span>
 					Latest Upload
 				</a>
 			</li>
       <li class="nav-item">
-        <a id="upload" class="nav-link" title="Upload Results" href="/<%=username%>/upload-results">
+        <a id="upload" class="nav-link" title="Upload Results" href="/app/upload-results">
           <span data-feather="upload-cloud"></span>
           Upload Results
         </a>

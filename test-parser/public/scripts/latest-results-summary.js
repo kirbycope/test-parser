@@ -9,7 +9,7 @@ function populateLastestResultsSummary() {
             latestResultsSummaryCallbackFunction();
         }
     };
-    xhttpLatestResultsSummary.open("GET", "/api/results/latest", true);
+    xhttpLatestResultsSummary.open("GET", "/api/results?latest=true", true);
     xhttpLatestResultsSummary.setRequestHeader("username", username);
     xhttpLatestResultsSummary.send();
 }

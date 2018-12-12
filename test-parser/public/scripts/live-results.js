@@ -8,7 +8,7 @@ function populateLatestResultsTable() {
             latestResultsCallbackFunction();
         }
     };
-    xhttpLatestResults.open("GET", "/api/results/latest", true);
+    xhttpLatestResults.open("GET", "/api/results?latest=true", true);
     xhttpLatestResults.setRequestHeader("username", username);
     xhttpLatestResults.send();
 }

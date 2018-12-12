@@ -34,12 +34,12 @@ router.get("/latest", function (req, res) {
             }
             else {
                 // Send the data
-                res.send(data.Items);
+                res.status(200).send(data.Items);
             }
         });
     }
     else {
-        res.send(401);
+        res.status(401).send();
     }
 });
 
@@ -90,7 +90,7 @@ router.post("/latest", function (req, res) {
         });
     }
     else {
-        res.send(401);
+        res.status(401).send();
     }
 });
 
