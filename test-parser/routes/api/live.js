@@ -117,7 +117,8 @@ var docClient = new AWS.DynamoDB.DocumentClient();
                 startTime: req.body.startTime,
                 endTime: req.body.endTime,
                 outcome: req.body.outcome,
-                message: req.body.message || " "
+                message: req.body.message || " ",
+                username: req.headers.username
             };
             // DynamoDB Object
             var params = {
