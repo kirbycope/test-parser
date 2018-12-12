@@ -20,22 +20,14 @@ function latestResultsSummaryCallbackFunction() {
     var recordsInSet = resultSet[[Object.keys(resultSet)[0]]];
     var total = recordsInSet.length;
     // [Re]Set counters
-    passed = 0;
-    failed = 0;
+    passed = recordsInSet.filter(function (o) { return o.outcome === "Passed"; }).length;
+    failed = recordsInSet.filter(function (o) { return o.outcome === "Failed"; }).length;
     var durationHours = 0;
     var durationMinutes = 0;
     var durationSeconds = 0;
-
     // Parse the results
     for (var i = 0; i < total; i++) {
-        var currentRecord = recordsInSet[i];
-        if (currentRecord.outcome === "Passed") {
-            passed++;
-        }
-        else if (currentRecord.outcome === "Failed") {
-            failed++;
-        }
-        var duration = currentRecord.duration;
+        var duration = recordsInSet[i].duration;
         durationHours += parseInt(duration.substring(0, duration.indexOf(":")));
         durationMinutes += parseInt(duration.substring(duration.indexOf(":") + 1, duration.lastIndexOf(":")));
         durationSeconds += parseInt(duration.substring(duration.lastIndexOf(":") + 1, duration.indexOf("."))); 

@@ -1,5 +1,7 @@
 var xhttpResults;
 var resultsList;
+var failed;
+var passed;
 
 function populateResultsSetsTable(unixtimestamp) {
     xhttpResults = new XMLHttpRequest();
@@ -17,6 +19,15 @@ function resultsSetsCallbackFunction() {
     // Get the results
     var resultSet = JSON.parse(xhttpResults.responseText);
     var recordsInSet = resultSet[[Object.keys(resultSet)[0]]];
+    var total = recordsInSet.length;
+
+    // [Re]Set counters
+    passed = recordsInSet.filter(function (o) { return o.outcome === "Passed"; }).length;
+    failed = recordsInSet.filter(function (o) { return o.outcome === "Failed"; }).length;
+    var durationHours = 0;
+    var durationMinutes = 0;
+    var durationSeconds = 0;
+    // Parse the results
     for (var i = 0; i < recordsInSet.length; i++) {
         var currentRecord = recordsInSet[i];
         // Create a new row
@@ -75,6 +86,11 @@ function resultsSetsCallbackFunction() {
             durationString = durationString.substring(0, 12);
             duration.innerText = durationString;
             row.appendChild(duration);
+
+            var durationValue = recordsInSet[i].duration;
+            durationHours += parseInt(durationValue.substring(0, durationValue.indexOf(":")));
+            durationMinutes += parseInt(durationValue.substring(durationValue.indexOf(":") + 1, durationValue.lastIndexOf(":")));
+            durationSeconds += parseInt(durationValue.substring(durationValue.lastIndexOf(":") + 1, durationValue.indexOf(".")));
         }
         // <td> - Start Time
         var startTime = document.createElement("td");
@@ -103,7 +119,21 @@ function resultsSetsCallbackFunction() {
         // Appened the row to the <tbody>
         document.getElementById("resultsTable").appendChild(row);
     }
+    // Calculate the times
+    var minutesAsSeconds = durationMinutes * 60;
+    var hoursAsSeconds = (durationHours * 60) * 60;
+    var totalSeconds = minutesAsSeconds + hoursAsSeconds + durationSeconds;
+    var date = new Date(null);
+    date.setSeconds(totalSeconds);
+    var passedPercentage = " (" + ((passed / total) * 100).toString().substring(0, 4) + "%)";
+    var failedPercentage = " (" + ((failed / total) * 100).toString().substring(0, 4) + "%)";
+    // Display the results
     ListJsTableData();
+    document.getElementById("resultsHeader").innerText = "Results from " + unixTimeStampToDate(unixtimestamp);
+    document.getElementById("latestTotal").innerText = total;
+    document.getElementById("latestPassed").innerText = passed + passedPercentage;
+    document.getElementById("latestFailed").innerText = failed + failedPercentage;
+    document.getElementById("duration").innerText = date.toISOString().substr(11, 8);
 }
 
 function ListJsTableData() {

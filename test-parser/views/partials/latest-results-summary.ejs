@@ -1,7 +1,6 @@
 <div>
 	<h2 class="h3">Live Results Summary</h2>
   <canvas id="chart-area" class="chartjs-render-monitor" style="display: block; max-height: 600px; max-width: 600px;"></canvas>
-	<p>Total: <span id="latestTotal"></span> | Passed: <span id="latestPassed" style="color: green"></span> | Failed: <span id="latestFailed" style="color: red"></span></p>
-  <p>Total Duration: <span id="duration"></span></p>
+  <%- include ./results-summary-span.ejs %>
 </div>
 <script src="/public/scripts/latest-results-summary.js"></script>
