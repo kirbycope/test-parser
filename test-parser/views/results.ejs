@@ -27,7 +27,10 @@
 		<div class="container-fluid">
 			<%- include ./partials/nav-sidebar.ejs %>
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-				<h1 id="resultsHeader" class="h2">Results</h1>
+				<div class="clearfix">
+					<h1 id="resultsHeader" class="h2" style="float: left;">Results</h1>
+					<button type="button" class="btn btn-danger" style="float: right;" onclick="deleteResults(unixtimestamp)" title="Delete these results">Delete</button>
+				</div>
 				<%- include ./partials/results-summary-span.ejs %>
 				<%- include ./partials/results-table.ejs %>
 				<script src="/public/scripts/results.js"></script>

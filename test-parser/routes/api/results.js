@@ -269,6 +269,46 @@ var docClient = new AWS.DynamoDB.DocumentClient();
             // Return the error to the user
             res.status(401).send();
         }
+});
+
+    /** DELETE
+         * @api {delete} /api/results/:unixtimestamp
+         * @apiName DeleteResultsUnixTimeStamp
+         * @apiGroup Results
+         * @apiDescription Delete a record from the 'results' database for the given unix time stamp and current user.
+         *  
+         * @apiHeader (Authentication) {String} username Username
+         * 
+         * @apiParam {Number} unixtimestamp A Unix Time stamp.
+         */
+    router.delete("/:unixtimestamp", function (req, res) {
+        // Check for 'username' header
+        if (req.headers.username) {
+            // DynamoDB Object
+            var params = {
+                TableName: "results",
+                Key: {
+                    "unixtimestamp": req.params.unixtimestamp
+                }
+            };
+            // Delete the Object from the DataBase
+            docClient.delete(params, function (err, data) {
+                // If the DB request returned an error
+                if (err) {
+                    // Return the error to the user
+                    res.send(err);
+                }
+                else {
+                    // Response: (200 OK) Send the data as the response body.
+                    res.status(200).send(data);
+                }
+            });
+        }
+        // The 'user' header is not present
+        else {
+            // Return the error to the user
+            res.status(401).send();
+        }
     });
 
 // #endregion Single Results Set

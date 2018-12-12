@@ -53,23 +53,47 @@ var docClient = new AWS.DynamoDB.DocumentClient();
     router.delete("/", function (req, res) {
         // Check for 'username' header
         if (req.headers.username) {
-            // DynamoDB Object
-            var params = {
-                TableName: "live",
-                Key: {
-                    "username": req.headers.username
-                }
-            };
-            // DELETE the Object from the DataBase and then run the callback function.
-            docClient.delete(params, function (err, data) {
+            // Get all records from the database, matching the current 'username'
+            getAllLive(req.headers.username, function (err, data) {
                 // If the DB request returned an error
                 if (err) {
                     // Return the error to the user
                     res.send(err);
                 }
                 else {
-                    // Send the data
-                    res.send(data);
+                    // NOTE: https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteItem.html
+
+                    // Declare an array to hold the delete item requests
+                    var itemsArray = [];
+                    // Create a delete request for each
+                    for (var i = 0; i < data.Items.length; i++) {
+                        var item = {
+                            DeleteRequest: {
+                                Key: {
+                                    "test": data.Items[i].test
+                                }
+                            }
+                        };
+                        itemsArray.push(item);
+                    }
+                    // DynamoDB Object
+                    var params = {
+                        RequestItems: {
+                            "live": itemsArray
+                        }
+                    };
+                    // DELETE the Object(s) from the DataBase
+                    docClient.batchWrite(params, function (err, data) {
+                        // If the DB request returned an error
+                        if (err) {
+                            // Return the error to the user
+                            res.send(err);
+                        }
+                        else {
+                            // Response: (200 OK) Send the data as the response body.
+                            res.status(200).send(data);
+                        }
+                    });
                 }
             });
         }
@@ -203,8 +227,7 @@ var docClient = new AWS.DynamoDB.DocumentClient();
             var params = {
                 TableName: "live",
                 Key: {
-                    "test": req.params.test,
-                    "username": req.headers.username 
+                    "test": req.params.test
                 }
             };
             // DELETE the Object from the DataBase
@@ -229,7 +252,7 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 
 // #endregion Single Live Record
 
-// Convenience Method - Get all records from the "results" database for the given user.
+// Convenience Method - Get all records from the "live" database for the given user.
 function getAllLive(username, callback) {
     // DynamoDB Object
     var params = {

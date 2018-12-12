@@ -19,6 +19,32 @@ function calculateTimes() {
     failedPercentage = " (" + ((failed / total) * 100).toString().substring(0, 4) + "%)";
 }
 
+function deleteAllLive() {
+    var xhttpDeleteLive = new XMLHttpRequest();
+    xhttpDeleteLive.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            window.location = "/app/dashboard";
+        }
+    };
+    xhttpDeleteLive.open("DELETE", "/api/live", true);
+    xhttpDeleteLive.setRequestHeader("username", username);
+    xhttpDeleteLive.send();
+    return false;
+}
+
+function deleteResults(unixtimestamp) {
+    var xhttpDeleteResults = new XMLHttpRequest();
+    xhttpDeleteResults.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            window.location = "/app/dashboard";
+        }
+    };
+    xhttpDeleteResults.open("DELETE", "/api/results/" + unixtimestamp, true);
+    xhttpDeleteResults.setRequestHeader("username", username);
+    xhttpDeleteResults.send();
+    return false;
+}
+
 function drawChart() {
     var config = {
         type: 'pie',
