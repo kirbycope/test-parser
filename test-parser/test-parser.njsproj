@@ -45,6 +45,7 @@
     </Compile>
     <Compile Include="public\scripts\main.js" />
     <Compile Include="public\scripts\nav-top.js" />
+    <Compile Include="public\scripts\previous-results-summary.js" />
     <Compile Include="public\scripts\profile.js" />
     <Compile Include="public\scripts\results.js" />
     <Compile Include="public\scripts\test-detail.js" />
@@ -62,10 +63,10 @@
     <Content Include="public\bootstrap\css\theme\default\signin.css" />
     <Content Include="public\favicon.ico" />
     <Content Include="public\scripts\nav-sidebar.js" />
-    <Content Include="README.md" />
     <Content Include="views\dashboard.ejs" />
     <Content Include="views\latest-upload.ejs" />
     <Content Include="views\live.ejs" />
+    <Content Include="views\partials\previous-results-summary.ejs" />
     <Content Include="views\partials\profile.ejs" />
     <Content Include="views\partials\results-summary-span.ejs" />
     <Content Include="views\partials\results-table.ejs" />

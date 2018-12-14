@@ -30,17 +30,19 @@ var docClient = new AWS.DynamoDB.DocumentClient();
                     res.send(err);
                 }
                 else {
-                    if (req.query.latest) {
+                    if (req.query.latest !== undefined) {
                         // Response: (200 OK) Send the data as the response body.
-                        res.send(getLatestResults(data));
+                        var latest = getLatestResults(data);
+                        res.status(200).send(latest);
                     }
-                    else if (req.query.last10) {
+                    else if (req.query.lastTen !== undefined) {
                         // Response: (200 OK) Send the data as the response body.
-                        res.send(getLastTenResults(data));
+                        var last10 = getLastTenResults(data);
+                        res.status(200).send(last10);
                     }
                     else {
                         // Response: (200 OK) Send the data as the response body.
-                        res.send(data);
+                        res.send(data.Items);
                     }
                 }
             });
@@ -345,8 +347,9 @@ function getLastTenResults(data) {
     // Filter only if there are more than 10 records
     if (data.Items.length > 10) {
         // Get the last 10 records
-        var last10 = data.filter(function (el, index) {
-            return index >= data.length - 10;
+        var arrayToFilter = data.Items;
+        var last10 = arrayToFilter.filter(function (el, index) {
+            return index >= arrayToFilter.length - 10;
         });
         return last10;
     }

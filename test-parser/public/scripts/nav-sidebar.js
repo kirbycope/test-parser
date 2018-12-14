@@ -1,4 +1,5 @@
 var xhttpLastTen;
+var lastTenResultsSets;
 
 function populateLastTenResultsLinks() {
     xhttpLastTen = new XMLHttpRequest();
@@ -14,15 +15,13 @@ function populateLastTenResultsLinks() {
 
 function lastTenResultsLinksCallbackFunction() {
     // Get the results
-    var resultsSets = JSON.parse(xhttpLastTen.responseText);
-    var recordsInSet = resultsSets[[Object.keys(resultsSets)[0]]];
-    recordsInSet.sort(function (a, b) {
+    lastTenResultsSets = JSON.parse(xhttpLastTen.responseText);
+    lastTenResultsSets.sort(function (a, b) {
         return parseFloat(b.unixtimestamp) - parseFloat(a.unixtimestamp);
     });
-    var total = recordsInSet.length;
     // Create a link for each results set
-    for (var i = 0; i < total; i++) {
-        var unixtimestamp = recordsInSet[i].unixtimestamp;
+    for (var i = 0; i < lastTenResultsSets.length; i++) {
+        var unixtimestamp = lastTenResultsSets[i].unixtimestamp;
         // Create the <li>
         var lineItem = document.createElement("li");
         lineItem.classList.add("nav-item");
@@ -51,6 +50,9 @@ function lastTenResultsLinksCallbackFunction() {
     feather.replace();
     // Highlight the active page
     activeSelection();
+    // Draw any chart waiting on the lastTen
+    try { drawChartLastTen(); }
+    catch (err) { /* do nothing */ }
 }
 
 function activeSelection() {
