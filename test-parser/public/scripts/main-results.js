@@ -1,20 +1,27 @@
-﻿var duration;
+﻿var actualDuration;
 var durationHours;
 var durationMinutes;
 var durationSeconds;
+var endDate;
 var failed;
 var failedPercentage;
 var passed;
 var passedPercentage;
 var resultsList;
 var total;
+var totalDuration;
+var statDate;
 
 function calculateTimes() {
+    // Actual Duration
+    actualDuration = parseInt((endDate.getTime() - startDate.getTime()) / 1000);
+    // Total Duration
     var minutesAsSeconds = durationMinutes * 60;
     var hoursAsSeconds = (durationHours * 60) * 60;
     var totalSeconds = minutesAsSeconds + hoursAsSeconds + durationSeconds;
-    duration = new Date(null);
-    duration.setSeconds(totalSeconds);
+    totalDuration = new Date(null);
+    totalDuration.setSeconds(totalSeconds);
+    // Pass/Fail percentages
     passedPercentage = " (" + ((passed / total) * 100).toString().substring(0, 4) + "%)";
     failedPercentage = " (" + ((failed / total) * 100).toString().substring(0, 4) + "%)";
 }
@@ -98,11 +105,31 @@ function parseRecordsInResultSet(recordsInSet) {
     durationHours = 0;
     durationMinutes = 0;
     durationSeconds = 0;
+    // Get the "start date"
+    startDate = new Date(Math.min.apply(null, recordsInSet.map(function (e) { return new Date(e.startTime); })));
+    // Get the "end date" (last start date + its duration)
+    endDate = new Date(Math.max.apply(null, recordsInSet.map(function (e) {
+        var date = new Date(e.startTime);
+        var dHours = parseInt(e.duration.split(":")[0]);
+        date.setHours(date.getHours() + dHours);
+        var dMinutes = parseInt(e.duration.split(":")[1]);
+        date.setMinutes(date.getMinutes() + dMinutes);
+        var dSeconds = parseInt(e.duration.split(":")[2]);
+        date.setSeconds(date.getSeconds() + dSeconds);
+        return date;
+    })));
     // Parse the results
     for (var i = 0; i < total; i++) {
         var currentRecord = recordsInSet[i];
         // Create a new row
         var row = document.createElement("tr");
+        // <td> - Configuration
+        var configuration = document.createElement("td");
+        {
+            configuration.classList.add("configuration");
+            configuration.innerText = currentRecord.configuration;
+            row.appendChild(configuration);
+        }
         // <td> - Page or View
         var testClass = document.createElement("td");
         {
@@ -157,7 +184,7 @@ function parseRecordsInResultSet(recordsInSet) {
             durationString = durationString.substring(0, 12);
             durationTd.innerText = durationString;
             row.appendChild(durationTd);
-
+            // Calculate the test's duration and add it to the running total "duration"
             var durationValue = recordsInSet[i].duration;
             durationHours += parseInt(durationValue.substring(0, durationValue.indexOf(":")));
             durationMinutes += parseInt(durationValue.substring(durationValue.indexOf(":") + 1, durationValue.lastIndexOf(":")));
@@ -217,5 +244,8 @@ function updateResultsSummarySpan() {
     document.getElementById("latestTotal").innerText = total;
     document.getElementById("latestPassed").innerText = passed + passedPercentage;
     document.getElementById("latestFailed").innerText = failed + failedPercentage;
-    document.getElementById("duration").innerText = duration.toISOString().substr(11, 8);
+    var date = new Date(null);
+    date.setSeconds(actualDuration);
+    document.getElementById("actualDuration").innerText = date.toISOString().substr(11, 8);
+    document.getElementById("totalDuration").innerText = totalDuration.toISOString().substr(11, 8);
 }

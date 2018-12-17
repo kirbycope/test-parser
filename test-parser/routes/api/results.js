@@ -193,20 +193,19 @@ var docClient = new AWS.DynamoDB.DocumentClient();
         // Check for 'username' header
         if (req.headers.username) {
             // Define DB item
-            var bodyDescription = req.body.description || " ";
-            var bodyMessage = req.body.message || " ";
             var unitTestResult =
             {
                 test: req.body.test,
                 testName: req.body.testName,
                 testClass: req.body.testClass,
+                configuration: req.body.configuration || " ",
                 computerName: req.body.computerName,
-                description: bodyDescription,
+                description: req.body.description || " ",
                 duration: req.body.duration,
                 startTime: req.body.startTime,
                 endTime: req.body.endTime,
                 outcome: req.body.outcome,
-                message: bodyMessage
+                message: req.body.message || " "
             };
             // DynamoDB Object - Append the test result to the existing results
             var appendResultParams = {

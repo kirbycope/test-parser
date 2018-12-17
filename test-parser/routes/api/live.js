@@ -135,6 +135,7 @@ var docClient = new AWS.DynamoDB.DocumentClient();
                 test: req.body.test,
                 testName: req.body.testName,
                 testClass: req.body.testClass,
+                configuration: req.body.configuration || " ",
                 computerName: req.body.computerName,
                 description: req.body.description || " ",
                 duration: req.body.duration,
