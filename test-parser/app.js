@@ -75,8 +75,12 @@ app.use(function (err, req, res, next) {
     });
 });
 
-app.set('port', process.env.PORT || 3000);
+// Start a HTTP server
+var httpServer = app.listen(80, function () {
+    debug('Express server listening on port ' + httpServer.address().port);
+});
 
-var server = app.listen(app.get('port'), function () {
-    debug('Express server listening on port ' + server.address().port);
+// Start a HTTP server
+var httpsServer = app.listen(443, function () {
+    debug('Express server listening on port ' + httpsServer.address().port);
 });
