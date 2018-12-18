@@ -127,7 +127,7 @@ function parseRecordsInResultSet(recordsInSet) {
         var configuration = document.createElement("td");
         {
             configuration.classList.add("configuration");
-            configuration.innerText = currentRecord.configuration;
+            configuration.innerText = currentRecord.configuration || "";
             row.appendChild(configuration);
         }
         // <td> - Page or View

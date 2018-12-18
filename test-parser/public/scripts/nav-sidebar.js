@@ -63,7 +63,7 @@ function activeSelection() {
         }
         catch (err) { /* do nothing */ }
     }
-    else if (pathname.includes("/live-results")) {
+    else if (pathname.includes("/live")) {
         try {
             document.getElementById("liveResults").classList.add("active");
         }
