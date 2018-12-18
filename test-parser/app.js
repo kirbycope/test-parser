@@ -75,11 +75,12 @@ app.use(function (err, req, res, next) {
     });
 });
 
+/*
 // Start a HTTP server
 var httpServer = app.listen(80, function () {
     debug('Express server listening on port ' + httpServer.address().port);
 });
-
+*/
 // Start a HTTP server
 var httpsServer = app.listen(443, function () {
     debug('Express server listening on port ' + httpsServer.address().port);
