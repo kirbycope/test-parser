@@ -179,6 +179,51 @@ var docClient = new AWS.DynamoDB.DocumentClient();
         }
     });
 
+    /** READ
+     * @api {get} /api/results/previous/:unixtimestamp
+     * @apiName GetPreviousResultsUnixTimeStamp
+     * @apiGroup Results
+     * @apiDescription Get a previous record from the 'results' database for the given unix time stamp and current user.
+     *  
+     * @apiHeader (Authentication) {String} username Username
+     * 
+     * @apiParam {Number} unixtimestamp A Unix Time stamp.
+     */
+    router.get("/previous/:unixtimestamp", function (req, res) {
+        // Check for 'username' header
+        if (req.headers.username) {
+            // Get all records from the database, matching the current 'username'
+            getAllResults(req.headers.username, function (err, data) {
+                // If the DB request returned an error
+                if (err) {
+                    // Return the error to the user
+                    res.send(err);
+                }
+                else {
+                    // Sort the data
+                    data.Items.sort(function (a, b) {
+                        return parseFloat(b.unixtimestamp) - parseFloat(a.unixtimestamp);
+                    });
+                    // Find the "previous" record
+                    var itemToReturn;
+                    for (var i = 0; i < data.Items.length; i++) {
+                        if (data.Items[i].unixtimestamp === req.params.unixtimestamp) {
+                            itemToReturn = data.Items[i + 1];
+                            break;
+                        }
+                    }
+                    // Response: (200 OK) Send the data as the response body.
+                    res.status(200).send(itemToReturn);
+                }
+            });
+        }
+        // The 'user' header is not present
+        else {
+            // Return the error to the user
+            res.status(401).send();
+        }
+    });
+
     /** UPDATE
      * @api {put} /api/results/:unixtimestamp
      * @apiName PutResults
