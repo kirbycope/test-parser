@@ -15,8 +15,14 @@ function drawChartLastTen() {
     var dataSet2 = [];
     for (var j = 0; j < lastTenResultsSets.length; j++) {
         dataLabels.push(lastTenResultsSets[j].unixtimestamp);
-        dataSet1.push(lastTenResultsSets[j].results.filter(function (o) { return o.outcome === "Failed"; }).length);
-        dataSet2.push(lastTenResultsSets[j].results.filter(function (o) { return o.outcome === "Passed"; }).length);
+        var passedCount = 0;
+        try { passedCount = lastTenResultsSets[j].results.filter(function (o) { return o.outcome === "Failed"; }).length; }
+        catch (err) { /* do nothing */ }
+        dataSet1.push(passedCount);
+        var failedCount = 0;
+        try { failedCount = lastTenResultsSets[j].results.filter(function (o) { return o.outcome === "Passed"; }).length }
+        catch (err) { /* do nothing */ }
+        dataSet2.push(failedCount);
     }
     var barChartData = {
         labels: dataLabels,
