@@ -233,6 +233,17 @@ function parseRecordsInResultSetDuration(recordsInSet) {
     }
 }
 
+function resultsCallback(recordsInSet) {
+    // Parse the results and display as a <table>
+    parseRecordsInResultSet(recordsInSet);
+    // Calculate the times
+    calculateTimes();
+    // Display the results summary in a <span>
+    updateResultsSummarySpan();
+    // Update the <table> with the List.js functionality
+    ListJsTableData();
+}
+
 // Update the <span> from ./partials/results-summary-span.ejs
 function updateResultsSummarySpan() {
     try {
