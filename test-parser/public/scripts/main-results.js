@@ -219,20 +219,6 @@ function parseRecordsInResultSet(recordsInSet) {
     }
 }
 
-function parseRecordsInResultSetDuration(recordsInSet) {
-    // [Re]Set counters
-    durationHours = 0;
-    durationMinutes = 0;
-    durationSeconds = 0;
-    // Parse the results
-    for (var i = 0; i < total; i++) {
-        var durationValue = recordsInSet[i].duration;
-        durationHours += parseInt(durationValue.substring(0, durationValue.indexOf(":")));
-        durationMinutes += parseInt(durationValue.substring(durationValue.indexOf(":") + 1, durationValue.lastIndexOf(":")));
-        durationSeconds += parseInt(durationValue.substring(durationValue.lastIndexOf(":") + 1, durationValue.indexOf(".")));
-    }
-}
-
 function resultsCallback(recordsInSet) {
     // Parse the results and display as a <table>
     parseRecordsInResultSet(recordsInSet);
@@ -244,7 +230,6 @@ function resultsCallback(recordsInSet) {
     ListJsTableData();
 }
 
-// Update the <span> from ./partials/results-summary-span.ejs
 function updateResultsSummarySpan() {
     try {
         document.getElementById("resultsHeader").innerText = "Results from " + unixTimeStampToDate(unixtimestamp);

@@ -37,7 +37,6 @@
     <Compile Include="public\jquery\jquery-3.3.1.min.js" />
     <Compile Include="public\listjs\list.min.js" />
     <Compile Include="public\scripts\latest-upload.js" />
-    <Compile Include="public\scripts\live-results-summary.js" />
     <Compile Include="public\scripts\live-results.js" />
     <Compile Include="public\scripts\index.js" />
     <Compile Include="public\scripts\main-results.js">
@@ -77,10 +76,8 @@
     <Content Include="views\error.ejs" />
     <Content Include="views\index.ejs" />
     <Content Include="views\partials\latest-upload-table.ejs" />
-    <Content Include="views\partials\live-results-summary.ejs" />
     <Content Include="views\partials\test-detail.ejs" />
     <Content Include="views\partials\upload-results-form.ejs" />
-    <Content Include="views\partials\live-results-table.ejs" />
     <Content Include="views\partials\nav-sidebar.ejs" />
     <Content Include="views\partials\nav-top.ejs" />
   </ItemGroup>
