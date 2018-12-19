@@ -79,7 +79,12 @@ function populateLastTenResults() {
     var xhttpLastTen = new XMLHttpRequest();
     xhttpLastTen.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
+            // Get  the results
             var resultSet = JSON.parse(xhttpLastTen.responseText);
+            // Sort the list
+            resultSet = resultSet.sort(function (a, b) {
+                return parseFloat(b.unixtimestamp) - parseFloat(a.unixtimestamp);
+            });
             drawChartLastTen(resultSet);
         }
     };
