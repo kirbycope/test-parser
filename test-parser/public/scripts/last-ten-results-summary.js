@@ -1,6 +1,6 @@
 var activePoints;
 
-function drawChartLastTen() {
+function drawChartLastTen(lastTenResultsSets) {
     var chartColors = {
         red: 'rgb(255, 99, 132)',
         orange: 'rgb(255, 159, 64)',
@@ -74,3 +74,18 @@ function drawChartLastTen() {
             }
         };
 }
+
+function populateLastTenResults() {
+    var xhttpLastTen = new XMLHttpRequest();
+    xhttpLastTen.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            var resultSet = JSON.parse(xhttpLastTen.responseText);
+            drawChartLastTen(resultSet);
+        }
+    };
+    xhttpLastTen.open("GET", "/api/results?lastTen=true", true);
+    xhttpLastTen.setRequestHeader("username", username);
+    xhttpLastTen.send();
+}
+
+populateLastTenResults();

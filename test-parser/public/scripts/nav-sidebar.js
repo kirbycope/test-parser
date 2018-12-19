@@ -1,22 +1,20 @@
-var xhttpLastTen;
-var lastTenResultsSets;
-
 function populateLastTenResultsLinks() {
-    xhttpLastTen = new XMLHttpRequest();
+    var xhttpLastTen = new XMLHttpRequest();
     xhttpLastTen.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            lastTenResultsLinksCallbackFunction();
+            lastTenResultsLinksCallbackFunction(xhttpLastTen);
         }
     };
-    xhttpLastTen.open("GET", "/api/results?lastTen=true", true);
+    xhttpLastTen.open("GET", "/api/results?lastTenUnixTimeStamps=true", true);
     xhttpLastTen.setRequestHeader("username", username);
     xhttpLastTen.send();
 }
 
-function lastTenResultsLinksCallbackFunction() {
+function lastTenResultsLinksCallbackFunction(xhttpLastTen) {
     // Get the results
-    lastTenResultsSets = JSON.parse(xhttpLastTen.responseText);
-    lastTenResultsSets.sort(function (a, b) {
+    var lastTenResultsSets = JSON.parse(xhttpLastTen.responseText);
+    // Sort the list
+    lastTenResultsSets = lastTenResultsSets.sort(function (a, b) {
         return parseFloat(b.unixtimestamp) - parseFloat(a.unixtimestamp);
     });
     // Create a link for each results set
@@ -50,9 +48,6 @@ function lastTenResultsLinksCallbackFunction() {
     feather.replace();
     // Highlight the active page
     activeSelection();
-    // Draw any chart waiting on the lastTen
-    try { drawChartLastTen(); }
-    catch (err) { /* do nothing */ }
 }
 
 function activeSelection() {

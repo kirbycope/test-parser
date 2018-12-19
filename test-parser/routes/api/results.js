@@ -22,30 +22,54 @@ var docClient = new AWS.DynamoDB.DocumentClient();
     router.get("/", function (req, res) {
         // Check for 'username' header
         if (req.headers.username) {
-            // Get all records from the database, matching the current 'username'
-            getAllResults(req.headers.username, function (err, data) {
-                // If the DB request returned an error
-                if (err) {
-                    // Return the error to the user
-                    res.send(err);
-                }
-                else {
-                    if (req.query.latest !== undefined) {
-                        // Response: (200 OK) Send the data as the response body.
-                        var latest = getLatestResults(data);
-                        res.status(200).send(latest);
-                    }
-                    else if (req.query.lastTen !== undefined) {
-                        // Response: (200 OK) Send the data as the response body.
-                        var last10 = getLastTenResults(data);
-                        res.status(200).send(last10);
+            // Handle '?lastTenUnixTimeStamps=true'
+            if (req.query.lastTenUnixTimeStamps !== undefined) {
+                // Get the last 10 records from the database, matching the current 'username'
+                getLastTenUnixTimeStamps(req.headers.username, function (err, data) {
+                    // If the DB request returned an error
+                    if (err) {
+                        // Return the error to the user
+                        res.send(err);
                     }
                     else {
+                        // Get the last 10 records
+                        var arrayToFilter = data.Items;
+                        if (arrayToFilter.length > 10) {
+                            arrayToFilter = arrayToFilter.filter(function (el, index) {
+                                return index >= arrayToFilter.length - 10;
+                            });
+                        }
                         // Response: (200 OK) Send the data as the response body.
-                        res.send(data.Items);
+                        res.send(arrayToFilter);
                     }
-                }
-            });
+                });
+            }
+            else {
+                // Get all records from the database, matching the current 'username'
+                getAllResults(req.headers.username, function (err, data) {
+                    // If the DB request returned an error
+                    if (err) {
+                        // Return the error to the user
+                        res.send(err);
+                    }
+                    else {
+                        if (req.query.latest !== undefined) {
+                            // Response: (200 OK) Send the data as the response body.
+                            var latest = getLatestResults(data);
+                            res.status(200).send(latest);
+                        }
+                        else if (req.query.lastTen !== undefined) {
+                            // Response: (200 OK) Send the data as the response body.
+                            var last10 = getLastTenResults(data);
+                            res.status(200).send(last10);
+                        }
+                        else {
+                            // Response: (200 OK) Send the data as the response body.
+                            res.send(data.Items);
+                        }
+                    }
+                });
+            }
         }
         // The 'user' header is not present
         else {
@@ -373,17 +397,19 @@ function getAllResults(username, callback) {
     docClient.scan(params, callback);
 }
 
-// Convenience Method - Take res.data and return the latest item.
-function getLatestResults(data) {
-    var max = data.Items.reduce(function (prev, current) {
-        if (+current.unixtimestamp > +prev.unixtimestamp) {
-            return current;
-        }
-        else {
-            return prev;
-        }
-    });
-    return max;
+// Convenience Method - Get all unixtimestamps from the "results" database for the given user.
+function getLastTenUnixTimeStamps(username, callback) {
+    // DynamoDB Object
+    var params = {
+        TableName: "results",
+        FilterExpression: 'username = :username',
+        ExpressionAttributeValues: {
+            ":username": username
+        },
+        ProjectionExpression: "unixtimestamp"
+    };
+    // GET all the Objects from the DataBase and then run the callback function.
+    docClient.scan(params, callback);
 }
 
 // Convenience Method - Take res.data and return the last 10 items.
@@ -401,6 +427,21 @@ function getLastTenResults(data) {
         return data.Items;
     }
 }
+
+// Convenience Method - Take res.data and return the latest item.
+function getLatestResults(data) {
+    var max = data.Items.reduce(function (prev, current) {
+        if (+current.unixtimestamp > +prev.unixtimestamp) {
+            return current;
+        }
+        else {
+            return prev;
+        }
+    });
+    return max;
+}
+
+
 
 // Required (https://nodejs.org/api/modules.html#modules_module_exports)
 module.exports = router;
