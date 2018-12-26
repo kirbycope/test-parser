@@ -7,6 +7,7 @@ var router = express.Router();
 var AWS = require("aws-sdk");
 AWS.config.loadFromPath('./config.json');
 AWS.config.update({ endpoint: "https://dynamodb.us-east-1.amazonaws.com" });
+var dynamodb = new AWS.DynamoDB();
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 // #region All Live Records
@@ -58,42 +59,26 @@ var docClient = new AWS.DynamoDB.DocumentClient();
                 TableName: "live"
             };
             // DELETE the Table from the DataBase
-            docClient.deleteTable(params, function (err, data) {
+            dynamodb.deleteTable(params, function (err, data) {
                 // If the DB request returned an error
                 if (err) {
-                    // Return the error to the user
-                    res.send(err);
+                    if (err.code !== "ResourceNotFoundException") {
+                        // Return the error to the user
+                        res.send(err);
+                    }
                 }
-                else {
-                    // [Re]Create table
-                    params = {
-                        TableName: "live",
-                        KeySchema: [
-                            {
-                                AttributeName: "test",
-                                KeyType: "HASH"
-                            }
-                        ],
-                        AttributeDefinitions: [
-                            {
-                                AttributeName: "test",
-                                AttributeType: "S"
-                            }
-                        ]
-                    };
-                    // CREATE the Table in the DataBase
-                    docClient.createTable(params, function (err, data) {
-                        // If the DB request returned an error
-                        if (err) {
-                            // Return the error to the user
-                            res.send(err);
-                        }
-                        else {
-                            // Send the data
-                            res.status(200).send(data);
-                        }
-                    });
-                }
+                // Create the new table
+                createNewLiveTable(function (err, data) {
+                    // If the DB request returned an error
+                    if (err) {
+                        // Return the error to the user
+                        res.send(err);
+                    }
+                    else {
+                        // Send the data
+                        res.status(200).send(data);
+                    }
+                });
             });
         }
         // The 'user' header is not present
@@ -252,7 +237,27 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 
 // #endregion Single Live Record
 
-// Convenience Method - Get all records from the "live" database for the given user.
+// Convenience Method - Create a new 'live' table and then run the callback function.
+function createNewLiveTable(callback) {
+    // DynamoDB Object
+    var params = {
+        TableName: "live",
+        KeySchema: [
+            { AttributeName: "test", KeyType: "HASH" }
+        ],
+        AttributeDefinitions: [
+            { AttributeName: "test", AttributeType: "S" }
+        ],
+        ProvisionedThroughput: {
+            ReadCapacityUnits: 5,
+            WriteCapacityUnits: 5
+        }
+    };
+    // CREATE the Table in the DataBase and then run the callback function.
+    dynamodb.createTable(params, callback);
+}
+
+// Convenience Method - Get all records from the "live" database for the given user and then run the callback function.
 function getAllLive(username, callback) {
     // DynamoDB Object
     var params = {
