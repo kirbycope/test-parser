@@ -82,13 +82,13 @@ function populateLastTenResults() {
             // Get  the results
             var resultSet = JSON.parse(xhttpLastTen.responseText);
             // Sort the list
-            resultSet = resultSet.sort(function (a, b) {
+            resultSet = resultSet.results.sort(function (a, b) {
                 return parseFloat(b.unixtimestamp) - parseFloat(a.unixtimestamp);
             });
             drawChartLastTen(resultSet);
         }
     };
-    xhttpLastTen.open("GET", "/api/results?lastTen=true", true);
+    xhttpLastTen.open("GET", "/api/results/lastten", true);
     xhttpLastTen.setRequestHeader("username", username);
     xhttpLastTen.send();
 }

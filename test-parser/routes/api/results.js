@@ -22,54 +22,95 @@ var docClient = new AWS.DynamoDB.DocumentClient();
     router.get("/", function (req, res) {
         // Check for 'username' header
         if (req.headers.username) {
-            // Handle '?lastTenUnixTimeStamps=true'
-            if (req.query.lastTenUnixTimeStamps !== undefined) {
-                // Get the last 10 records from the database, matching the current 'username'
-                getLastTenUnixTimeStamps(req.headers.username, function (err, data) {
-                    // If the DB request returned an error
-                    if (err) {
-                        // Return the error to the user
-                        res.send(err);
-                    }
-                    else {
-                        // Get the last 10 records
-                        var arrayToFilter = data.Items;
-                        if (arrayToFilter.length > 10) {
-                            arrayToFilter = arrayToFilter.filter(function (el, index) {
-                                return index >= arrayToFilter.length - 10;
-                            });
-                        }
-                        // Response: (200 OK) Send the data as the response body.
-                        res.send(arrayToFilter);
-                    }
-                });
-            }
-            else {
-                // Get all records from the database, matching the current 'username'
-                getAllResults(req.headers.username, function (err, data) {
-                    // If the DB request returned an error
-                    if (err) {
-                        // Return the error to the user
-                        res.send(err);
-                    }
-                    else {
-                        if (req.query.latest !== undefined) {
-                            // Response: (200 OK) Send the data as the response body.
-                            var latest = getLatestResults(data);
-                            res.status(200).send(latest);
-                        }
-                        else if (req.query.lastTen !== undefined) {
-                            // Response: (200 OK) Send the data as the response body.
-                            var last10 = getLastTenResults(data);
-                            res.status(200).send(last10);
+            // Get all records from the database, matching the current 'username'
+            getAllResults(req.headers.username, function (err, data) {
+                // If the DB request returned an error
+                if (err) {
+                    // Return the error to the user
+                    res.send(err);
+                }
+                else {
+                    // Response: (200 OK) Send the data as the response body.
+                    res.send(data.Items);
+                }
+            });
+        }
+        // The 'user' header is not present
+        else {
+            // Return the error to the user
+            res.status(401).send();
+        }
+    });
+
+    /** READ
+     * @api {get} /api/results/lastten
+     * @apiName GetResultsLastTen
+     * @apiGroup Results
+     * @apiDescription Get the last ten records from the 'results' database for the current user.
+     *  
+     * @apiHeader (Authentication) {String} username Username
+     */
+    router.get("/lastten", function (req, res) {
+        // Check for 'username' header
+        if (req.headers.username) {
+            // Get the each 'unixtimestamp' from the database, matching the current 'username'
+            getAllUnixTimeStamps(req.headers.username, function (err, data) {
+                // If the DB request returned an error
+                if (err) {
+                    // Return the error to the user
+                    res.send(err);
+                }
+                else {
+                    // Filter the list of unixtimestamps to the latest 10
+                    var lastTen = getLastTenItems(data);
+                    // Get the last ten results
+                    getLastTenResults(lastTen, function (err, data) {
+                        if (err) {
+                            // Return the error to the user
+                            res.send(err);
                         }
                         else {
                             // Response: (200 OK) Send the data as the response body.
-                            res.send(data.Items);
+                            res.status(200).send(data.Responses);
                         }
-                    }
-                });
-            }
+                    });
+                }
+            });
+        }
+        // The 'user' header is not present
+        else {
+            // Return the error to the user
+            res.status(401).send();
+        }
+    });
+
+    /** READ
+     * @api {get} /api/results/unixtimestamps?lastTen=true
+     * @apiName GetResultsUnixTimeStamps
+     * @apiGroup Results
+     * @apiDescription Get all unixtimestamps from the 'results' database for the current user.
+     *  
+     * @apiHeader (Authentication) {String} username Username
+     * 
+     * @apiParam {Number} unixtimestamp A Unix Time stamp.
+     */
+    router.get("/unixtimestamps", function (req, res) {
+        // Check for 'username' header
+        if (req.headers.username) {
+            // Get the each 'unixtimestamp' from the database, matching the current 'username'
+            getAllUnixTimeStamps(req.headers.username, function (err, data) {
+                // If the DB request returned an error
+                if (err) {
+                    // Return the error to the user
+                    res.send(err);
+                }
+                else {
+                    // Handle '?lastTen=true'
+                    var lastTen = getLastTenItems(data);
+                    // Response: (200 OK) Send the data as the response body.
+                    res.status(200).send(lastTen);
+                }
+            });
         }
         // The 'user' header is not present
         else {
@@ -203,51 +244,6 @@ var docClient = new AWS.DynamoDB.DocumentClient();
         }
     });
 
-    /** READ
-     * @api {get} /api/results/previous/:unixtimestamp
-     * @apiName GetPreviousResultsUnixTimeStamp
-     * @apiGroup Results
-     * @apiDescription Get a previous record from the 'results' database for the given unix time stamp and current user.
-     *  
-     * @apiHeader (Authentication) {String} username Username
-     * 
-     * @apiParam {Number} unixtimestamp A Unix Time stamp.
-     */
-    router.get("/previous/:unixtimestamp", function (req, res) {
-        // Check for 'username' header
-        if (req.headers.username) {
-            // Get all records from the database, matching the current 'username'
-            getAllResults(req.headers.username, function (err, data) {
-                // If the DB request returned an error
-                if (err) {
-                    // Return the error to the user
-                    res.send(err);
-                }
-                else {
-                    // Sort the data
-                    data.Items.sort(function (a, b) {
-                        return parseFloat(b.unixtimestamp) - parseFloat(a.unixtimestamp);
-                    });
-                    // Find the "previous" record
-                    var itemToReturn;
-                    for (var i = 0; i < data.Items.length; i++) {
-                        if (data.Items[i].unixtimestamp === req.params.unixtimestamp) {
-                            itemToReturn = data.Items[i + 1];
-                            break;
-                        }
-                    }
-                    // Response: (200 OK) Send the data as the response body.
-                    res.status(200).send(itemToReturn);
-                }
-            });
-        }
-        // The 'user' header is not present
-        else {
-            // Return the error to the user
-            res.status(401).send();
-        }
-    });
-
     /** UPDATE
      * @api {put} /api/results/:unixtimestamp
      * @apiName PutResults
@@ -342,15 +338,15 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 });
 
     /** DELETE
-         * @api {delete} /api/results/:unixtimestamp
-         * @apiName DeleteResultsUnixTimeStamp
-         * @apiGroup Results
-         * @apiDescription Delete a record from the 'results' database for the given unix time stamp and current user.
-         *  
-         * @apiHeader (Authentication) {String} username Username
-         * 
-         * @apiParam {Number} unixtimestamp A Unix Time stamp.
-         */
+     * @api {delete} /api/results/:unixtimestamp
+     * @apiName DeleteResultsUnixTimeStamp
+     * @apiGroup Results
+     * @apiDescription Delete a record from the 'results' database for the given unix time stamp and current user.
+     *  
+     * @apiHeader (Authentication) {String} username Username
+     * 
+     * @apiParam {Number} unixtimestamp A Unix Time stamp.
+     */
     router.delete("/:unixtimestamp", function (req, res) {
         // Check for 'username' header
         if (req.headers.username) {
@@ -383,7 +379,32 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 
 // #endregion Single Results Set
 
-// Convenience Method - Get all records from the "results" database for the given user.
+// Convenience Method - Take res.data (containing the last ten unixtimestamps), get those records, and then run the callback function.
+function getLastTenResults(data, callback) {
+    // DynamoDB Object
+    var params = {
+        RequestItems: {
+            "results": {
+                Keys: [
+                    { unixtimestamp: data[0].unixtimestamp },
+                    { unixtimestamp: data[1].unixtimestamp },
+                    { unixtimestamp: data[2].unixtimestamp },
+                    { unixtimestamp: data[3].unixtimestamp },
+                    { unixtimestamp: data[4].unixtimestamp },
+                    { unixtimestamp: data[5].unixtimestamp },
+                    { unixtimestamp: data[6].unixtimestamp },
+                    { unixtimestamp: data[7].unixtimestamp },
+                    { unixtimestamp: data[8].unixtimestamp },
+                    { unixtimestamp: data[9].unixtimestamp }
+                ]
+            }
+        }
+    };
+    // GET all the Objects from the DataBase (matching the given keys) and then run the callback function.
+    docClient.batchGet(params, callback);
+}
+
+// Convenience Method - Get all records from the "results" table for the given user.
 function getAllResults(username, callback) {
     // DynamoDB Object
     var params = {
@@ -397,8 +418,8 @@ function getAllResults(username, callback) {
     docClient.scan(params, callback);
 }
 
-// Convenience Method - Get all unixtimestamps from the "results" database for the given user.
-function getLastTenUnixTimeStamps(username, callback) {
+// Convenience Method - Get all unixtimestamps from the "results" table for the given user.
+function getAllUnixTimeStamps(username, callback) {
     // DynamoDB Object
     var params = {
         TableName: "results",
@@ -412,8 +433,8 @@ function getLastTenUnixTimeStamps(username, callback) {
     docClient.scan(params, callback);
 }
 
-// Convenience Method - Take res.data and return the last 10 items.
-function getLastTenResults(data) {
+// Convenience Method - Take res.data and return the last 10 items (by unixtimestamp).
+function getLastTenItems(data) {
     // Filter only if there are more than 10 records
     if (data.Items.length > 10) {
         // Get the last 10 records
@@ -428,8 +449,9 @@ function getLastTenResults(data) {
     }
 }
 
-// Convenience Method - Take res.data and return the latest item.
-function getLatestResults(data) {
+// Convenience Method - Take res.data and return the latest item (by unixtimestamp).
+function getLatestItemByUnixtimestamp(data) {
+    
     var max = data.Items.reduce(function (prev, current) {
         if (+current.unixtimestamp > +prev.unixtimestamp) {
             return current;
@@ -440,8 +462,6 @@ function getLatestResults(data) {
     });
     return max;
 }
-
-
 
 // Required (https://nodejs.org/api/modules.html#modules_module_exports)
 module.exports = router;

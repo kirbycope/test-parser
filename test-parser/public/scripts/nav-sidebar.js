@@ -5,7 +5,7 @@ function populateLastTenResultsLinks() {
             lastTenResultsLinksCallbackFunction(xhttpLastTen);
         }
     };
-    xhttpLastTen.open("GET", "/api/results?lastTenUnixTimeStamps=true", true);
+    xhttpLastTen.open("GET", "/api/results/unixtimestamps?lastTen=true", true);
     xhttpLastTen.setRequestHeader("username", username);
     xhttpLastTen.send();
 }

@@ -1,4 +1,4 @@
-function populateLatestResultsTable() {
+function populateLiveResultsTable() {
     var xhttpLive = new XMLHttpRequest();
     xhttpLive.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -12,4 +12,4 @@ function populateLatestResultsTable() {
     xhttpLive.send();
 }
 
-populateLatestResultsTable();
+populateLiveResultsTable();

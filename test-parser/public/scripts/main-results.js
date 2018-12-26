@@ -242,6 +242,11 @@ function updateResultsSummarySpan() {
     document.getElementById("latestFailed").innerText = failed + failedPercentage;
     var date = new Date(null);
     date.setSeconds(actualDuration);
-    document.getElementById("actualDuration").innerText = date.toISOString().substr(11, 8);
+    if (window.location.href.indexOf("live") !== -1) {
+        document.getElementById("actualDuration").parentElement.setAttribute("style", "display: none;");
+    }
+    else {
+        document.getElementById("actualDuration").innerText = date.toISOString().substr(11, 8);
+    }
     document.getElementById("totalDuration").innerText = totalDuration.toISOString().substr(11, 8);
 }
