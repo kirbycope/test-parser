@@ -386,20 +386,17 @@ function getLastTenResults(data, callback) {
         RequestItems: {
             "results": {
                 Keys: [
-                    { unixtimestamp: data[0].unixtimestamp },
-                    { unixtimestamp: data[1].unixtimestamp },
-                    { unixtimestamp: data[2].unixtimestamp },
-                    { unixtimestamp: data[3].unixtimestamp },
-                    { unixtimestamp: data[4].unixtimestamp },
-                    { unixtimestamp: data[5].unixtimestamp },
-                    { unixtimestamp: data[6].unixtimestamp },
-                    { unixtimestamp: data[7].unixtimestamp },
-                    { unixtimestamp: data[8].unixtimestamp },
-                    { unixtimestamp: data[9].unixtimestamp }
+                    /* TBD (below) */
                 ]
             }
         }
     };
+    // Populate the keys
+    for (var i = 0; i < data.length; i++) {
+        params.RequestItems["results"].Keys.push(
+            { unixtimestamp: data[i].unixtimestamp }
+        );
+    }
     // GET all the Objects from the DataBase (matching the given keys) and then run the callback function.
     docClient.batchGet(params, callback);
 }

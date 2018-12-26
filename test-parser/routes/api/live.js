@@ -53,44 +53,43 @@ var docClient = new AWS.DynamoDB.DocumentClient();
     router.delete("/", function (req, res) {
         // Check for 'username' header
         if (req.headers.username) {
-            // Get all records from the database, matching the current 'username'
-            getAllLive(req.headers.username, function (err, data) {
+            // DynamoDB Object
+            var params = {
+                TableName: "live"
+            };
+            // DELETE the Table from the DataBase
+            docClient.deleteTable(params, function (err, data) {
                 // If the DB request returned an error
                 if (err) {
                     // Return the error to the user
                     res.send(err);
                 }
                 else {
-                    // NOTE: https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteItem.html
-
-                    // Declare an array to hold the delete item requests
-                    var itemsArray = [];
-                    // Create a delete request for each
-                    for (var i = 0; i < data.Items.length; i++) {
-                        var item = {
-                            DeleteRequest: {
-                                Key: {
-                                    "test": data.Items[i].test
-                                }
+                    // [Re]Create table
+                    params = {
+                        TableName: "live",
+                        KeySchema: [
+                            {
+                                AttributeName: "test",
+                                KeyType: "HASH"
                             }
-                        };
-                        itemsArray.push(item);
-                    }
-                    // DynamoDB Object
-                    var params = {
-                        RequestItems: {
-                            "live": itemsArray
-                        }
+                        ],
+                        AttributeDefinitions: [
+                            {
+                                AttributeName: "test",
+                                AttributeType: "S"
+                            }
+                        ]
                     };
-                    // DELETE the Object(s) from the DataBase
-                    docClient.batchWrite(params, function (err, data) {
+                    // CREATE the Table in the DataBase
+                    docClient.createTable(params, function (err, data) {
                         // If the DB request returned an error
                         if (err) {
                             // Return the error to the user
                             res.send(err);
                         }
                         else {
-                            // Response: (200 OK) Send the data as the response body.
+                            // Send the data
                             res.status(200).send(data);
                         }
                     });
