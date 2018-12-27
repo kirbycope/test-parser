@@ -57,6 +57,7 @@
     <Compile Include="routes\app\app.js" />
     <Compile Include="routes\index.js" />
     <Content Include="config.json" />
+    <Content Include="documentation\csharp\README.md" />
     <Content Include="package.json" />
     <Content Include="public\bootstrap\css\theme\default\bootstrap.min.css" />
     <Content Include="public\bootstrap\css\theme\default\dashboard.css" />
@@ -85,6 +86,8 @@
     <Content Include="views\partials\nav-top.ejs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="documentation\" />
+    <Folder Include="documentation\csharp\" />
     <Folder Include="public\" />
     <Folder Include="public\bootstrap\" />
     <Folder Include="public\bootstrap\css\" />
