@@ -46,7 +46,7 @@ document.getElementById("searchTestName").addEventListener("keyup", function (ev
         // Toggle display of search results
         var divSearchResults = document.getElementById("searchResults");
         if (event.target.value.length > 0) {
-            divSearchResults.style = "display: block; list-style: none;";
+            divSearchResults.style = "display: block; list-style: none; position: absolute;";
         }
         else {
             divSearchResults.style = "display: none;";
