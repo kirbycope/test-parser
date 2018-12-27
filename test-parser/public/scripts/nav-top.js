@@ -1,3 +1,5 @@
+var myList;
+
 function populateSearchLinks() {
     var xhttpSearch = new XMLHttpRequest();
     xhttpSearch.onreadystatechange = function () {
@@ -9,7 +11,7 @@ function populateSearchLinks() {
     xhttpSearch.setRequestHeader("username", username);
     xhttpSearch.send();
 }
-var myList;
+
 function searchResultsLinksCallbackFunction(xhttpSearch) {
     // Get the results
     var searchResults = JSON.parse(xhttpSearch.responseText);

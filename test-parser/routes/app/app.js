@@ -48,6 +48,26 @@ router.get('/live', function (req, res) {
     }
 });
 
+// Login page "./app/login"
+router.get('/login', function (req, res) {
+    res.render('login', {
+        static_path: '/public',
+        theme: process.env.THEME || 'default',
+        flask_debug: process.env.FLASK_DEBUG || 'false'
+    });
+});
+
+// Logout page "./app/logout"
+router.get('/logout', function (req, res) {
+    res.clearCookie("user");
+    res.render('login', {
+        static_path: '/public',
+        theme: process.env.THEME || 'default',
+        flask_debug: process.env.FLASK_DEBUG || 'false'
+    });
+});
+
+
 // Profile page "./app/profile"
 router.get('/profile', function (req, res) {
     if (req.cookies.username) {

@@ -12,25 +12,4 @@ router.get('/', function (req, res) {
     });
 });
 
-// Login page
-router.get('/login', function (req, res) {
-    res.clearCookie("user");
-    res.render('index', {
-        static_path: 'public',
-        theme: process.env.THEME || 'default',
-        flask_debug: process.env.FLASK_DEBUG || 'false',
-        username: req.cookies.username
-    });
-});
-
-// Logout page
-router.get('/logout', function (req, res) {
-    res.clearCookie("user");
-    res.render('index', {
-        static_path: '/public',
-        theme: process.env.THEME || 'default',
-        flask_debug: process.env.FLASK_DEBUG || 'false'
-    });
-});
-
 module.exports = router;

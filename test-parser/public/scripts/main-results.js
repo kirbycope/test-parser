@@ -27,15 +27,22 @@ function calculateTimes() {
 }
 
 function deleteAllLive() {
+    alert("Temporarily disabled. Contact support.");
+    /*
+    var btnDeleteAll = document.getElementById("deleteAll");
+    btnDeleteAll.setAttribute("disabled", "");
+    btnDeleteAll.innerText = "Deleting...";
     var xhttpDeleteLive = new XMLHttpRequest();
     xhttpDeleteLive.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            window.location = "/app/dashboard";
+            // Creating the table takes a few seconds
+            loadPageAfterDelay("/app/dashboard");
         }
     };
     xhttpDeleteLive.open("DELETE", "/api/live", true);
     xhttpDeleteLive.setRequestHeader("username", username);
     xhttpDeleteLive.send();
+    */
     return false;
 }
 
@@ -95,6 +102,16 @@ function ListJsTableData() {
         ]
     };
     resultsList = new List("results", options);
+}
+
+async function loadPageAfterDelay(location) {
+    /*
+     * ISBN 978-3-642-03658-3 page 240 section 2.2
+     * https://books.google.com/books?id=xXXDoORrU9IC&pg=PA240&lpg=PA240
+     * States that after 10 seconds focus (of the user) is lost
+     */
+    await sleep(10000);
+    window.location = location;
 }
 
 function parseRecordsInResultSet(recordsInSet) {
@@ -228,6 +245,10 @@ function resultsCallback(recordsInSet) {
     updateResultsSummarySpan();
     // Update the <table> with the List.js functionality
     ListJsTableData();
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function updateResultsSummarySpan() {

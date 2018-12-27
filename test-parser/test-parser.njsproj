@@ -39,6 +39,7 @@
     <Compile Include="public\scripts\latest-upload.js" />
     <Compile Include="public\scripts\live-results.js" />
     <Compile Include="public\scripts\index.js" />
+    <Compile Include="public\scripts\login.js" />
     <Compile Include="public\scripts\main-results.js">
       <SubType>Code</SubType>
     </Compile>
@@ -59,12 +60,14 @@
     <Content Include="package.json" />
     <Content Include="public\bootstrap\css\theme\default\bootstrap.min.css" />
     <Content Include="public\bootstrap\css\theme\default\dashboard.css" />
+    <Content Include="public\bootstrap\css\theme\default\product.css" />
     <Content Include="public\bootstrap\css\theme\default\signin.css" />
     <Content Include="public\favicon.ico" />
     <Content Include="public\scripts\nav-sidebar.js" />
     <Content Include="views\dashboard.ejs" />
     <Content Include="views\latest-upload.ejs" />
     <Content Include="views\live.ejs" />
+    <Content Include="views\login.ejs" />
     <Content Include="views\partials\last-ten-results-summary.ejs" />
     <Content Include="views\partials\profile.ejs" />
     <Content Include="views\partials\results-summary-span.ejs" />
