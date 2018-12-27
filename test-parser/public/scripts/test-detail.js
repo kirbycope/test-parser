@@ -7,7 +7,7 @@ function populateTestDetails(test) {
             detailCallbackFunction();
         }
     };
-    xhttpTestDetail.open("GET", "/api/liveresults/" + test, true);
+    xhttpTestDetail.open("GET", "/api/live/" + test, true);
     xhttpTestDetail.setRequestHeader("username", username);
     xhttpTestDetail.send();
 }

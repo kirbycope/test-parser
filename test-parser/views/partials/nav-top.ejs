@@ -1,7 +1,10 @@
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
   <a class="navbar-brand col-sm-3 col-md-2 mr-0" title="Home" href="#">Test Parser</a>
-  <input id="searchTestName" class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" />
-  <ul class="navbar-nav px-3">
+  <div id="test-list" style="position: relative; width: 100%;">
+    <input id="searchTestName" class="fuzzy-search form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" />
+    <ul id="searchResults" class="list form-control form-control w-100" style="display:none;"></ul>
+  </div>
+    <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
       <a class="nav-link" title="Profile" href="/app/profile">
         <span data-feather="user"></span>
@@ -14,4 +17,7 @@
     </li>
   </ul>
 </nav>
+<!-- Script - Custom -->
 <script src="/public/scripts/nav-top.js"></script>
+<!-- Script - List.js -->
+<script src="/public/listjs/list.min.js"></script>

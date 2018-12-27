@@ -43,6 +43,46 @@ var docClient = new AWS.DynamoDB.DocumentClient();
         }
     });
 
+    /** READ
+     * @api {get} /api/live/tests
+     * @apiName GetLiveTests
+     * @apiGroup Live
+     * @apiDescription Get all 'tests' from the 'live' database for the current user.
+     *  
+     * @apiHeader (Authentication) {String} username Username
+     */
+    router.get("/tests", function (req, res) {
+        // Check for 'username' header
+        if (req.headers.username) {
+            // DynamoDB Object
+            var params = {
+                TableName: "live",
+                FilterExpression: 'username = :username',
+                ExpressionAttributeValues: {
+                    ":username": req.headers.username
+                },
+                ProjectionExpression: "test"
+            };
+            // GET all the Objects from the DataBase
+            docClient.scan(params, function (err, data) {
+                // If the DB request returned an error
+                if (err) {
+                    // Return the error to the user
+                    res.send(err);
+                }
+                else {
+                    // Response: (200 OK) Send the data as the response body.
+                    res.status(200).send(data);
+                }
+            });
+        }
+        // The 'user' header is not present
+        else {
+            // Return the error to the user
+            res.status(401).send();
+        }
+    });
+
     /** DELETE
     * @api {delete} /api/live
     * @apiName DeleteLive

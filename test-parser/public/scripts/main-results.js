@@ -163,7 +163,7 @@ function parseRecordsInResultSet(recordsInSet) {
         {
             testName.classList.add("testName");
             var detailLink = document.createElement("a");
-            detailLink.href = "./test-detail?test=" + currentRecord.test;
+            detailLink.href = "/app/test-detail?test=" + currentRecord.test;
             detailLink.title = "View details for test " + currentRecord.testName;
             detailLink.innerText = currentRecord.testName;
             testName.appendChild(detailLink);
