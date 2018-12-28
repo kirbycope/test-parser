@@ -52,6 +52,12 @@ function lastTenResultsLinksCallbackFunction(xhttpLastTen) {
 
 function activeSelection() {
     var pathname = window.location.pathname;
+    if (pathname.includes("/compare")) {
+        try {
+            document.getElementById("compareResults").classList.add("active");
+        }
+        catch (err) { /* do nothing */ }
+    }
     if (pathname.includes("/dashboard")) {
         try {
             document.getElementById("home").classList.add("active");

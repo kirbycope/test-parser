@@ -3,6 +3,21 @@
 var express = require('express');
 var router = express.Router();
 
+// Dashboard page "./app/compare"
+router.get('/compare', function (req, res) {
+    if (req.cookies.username) {
+        res.render('compare', {
+            static_path: '/public',
+            theme: process.env.THEME || 'default',
+            flask_debug: process.env.FLASK_DEBUG || 'false',
+            username: req.cookies.username
+        });
+    }
+    else {
+        res.status(401).send();
+    }
+});
+
 // Dashboard page "./app/dashboard"
 router.get('/dashboard', function (req, res) {
     if (req.cookies.username) {

@@ -66,6 +66,7 @@
     <Content Include="public\bootstrap\css\theme\default\signin.css" />
     <Content Include="public\favicon.ico" />
     <Content Include="public\scripts\nav-sidebar.js" />
+    <Content Include="views\compare.ejs" />
     <Content Include="views\dashboard.ejs" />
     <Content Include="views\latest-upload.ejs" />
     <Content Include="views\live.ejs" />
