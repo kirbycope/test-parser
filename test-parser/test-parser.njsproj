@@ -61,8 +61,8 @@
     <Content Include="documentation\csharp\README.md" />
     <Content Include="package.json" />
     <Content Include="public\bootstrap\css\theme\default\bootstrap.min.css" />
-    <Content Include="public\bootstrap\css\theme\default\dashboard.css" />
-    <Content Include="public\bootstrap\css\theme\default\product.css" />
+    <Content Include="public\bootstrap\css\theme\default\app.css" />
+    <Content Include="public\bootstrap\css\theme\default\web.css" />
     <Content Include="public\bootstrap\css\theme\default\signin.css" />
     <Content Include="public\favicon.ico" />
     <Content Include="public\scripts\nav-sidebar.js" />
@@ -70,12 +70,15 @@
     <Content Include="views\latest-upload.ejs" />
     <Content Include="views\live.ejs" />
     <Content Include="views\login.ejs" />
+    <Content Include="views\partials\app-header.ejs" />
+    <Content Include="views\partials\getting-started.ejs" />
     <Content Include="views\partials\last-ten-results-summary.ejs" />
     <Content Include="views\partials\privacy.ejs" />
     <Content Include="views\partials\profile.ejs" />
     <Content Include="views\partials\results-summary-span.ejs" />
     <Content Include="views\partials\results-table.ejs" />
     <Content Include="views\partials\terms.ejs" />
+    <Content Include="views\partials\web-header.ejs" />
     <Content Include="views\profile.ejs" />
     <Content Include="views\results.ejs" />
     <Content Include="views\test-detail.ejs" />

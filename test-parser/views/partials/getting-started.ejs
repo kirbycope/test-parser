@@ -1,0 +1,17 @@
+<h2 class="h3" style="margin-bottom: 1.25rem;">Getting Started</h2>
+<div>
+	<h3 class="h4">Live Results</h3>
+	<p>The <strong><span data-feather="thermometer"></span> Live Results</strong> page shows the latest result for all tests. The primary key is <em>test</em>, which is a combination of the class and method name.</p>
+	<p>As each test completes and runs the [TestCleanup()], an API call creates/updates the record (matching the <em>test</em>).</p>
+</div>
+<div>
+	<h3 class="h4">Results</h3>
+	<p>The <strong><span data-feather="file-text"></span> Results</strong> page(s) show the results for a test suite run. The primary key is <em>unixtimestamp</em>, which is the time the test suite started.</p>
+	<p>The unixtimestamp is created during a test suite's [AssemblyInitialize] and is used to create the inital <em>results</em> record via an API call.</p>
+	<p>As each test completes and runs the [TestCleanup()], an API call updates the record (matching the <em>unixtimestamp</em>).</p>
+</div>
+<div>
+	<h3 class="h4">Uploads</h3>
+	<p>The <strong><span data-feather="file-text"></span> Latest Upload</strong> page shows the latest uploaded result file. The primary key is <em>testName</em>.</p>
+	<p>This is the parsed result of using the <strong><span data-feather="upload-cloud"></span> Upload Results</strong> page to upload a .trx file.</p>
+</div>

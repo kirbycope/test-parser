@@ -1,23 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		<title>Test Parser</title>
-		<!-- Bootstrap core CSS -->
-		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/bootstrap.min.css" %>" rel="stylesheet">
-		<!-- Custom styles for this template -->
-		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/dashboard.css" %>" rel="stylesheet">
-		<!-- Script - Main (Common) JS for this webapp -->
-		<script src="<%= static_path + "/scripts/main.js" %>" type="text/javascript"></script>
-		<!-- Script - Main (Common) JS for this webapp's results views -->
-		<script src="<%= static_path + "/scripts/main-results.js" %>" type="text/javascript"></script>
+		<%- include ./partials/app-header.ejs %>
 		<!-- Data from controller -->
 		<script>
 		    var unixtimestamp = "<%= unixtimestamp %>";
-			var username = "<%= username %>";
 		</script>
 	</head>
 	<body>
@@ -29,11 +16,12 @@
 					<h1 id="resultsHeader" class="h2" style="float: left;">Results</h1>
 					<button type="button" class="btn btn-danger" style="float: right;" onclick="deleteResults(unixtimestamp)" title="Delete these results">Delete</button>
 					<a id="dlink"  style="display:none;"></a>
-					<input type="button" class="btn btn-primary" style="float: right; margin-right: .25rem;" onclick="tableToExcel('resultsTable', unixtimestamp, 'results-'+unixtimestamp+'.xls')" value="Export to Excel" />
+					<input type="button" class="btn btn-primary" style="float: right; margin-right: .25rem;" onclick="tableToExcel('results', unixtimestamp, 'results-'+unixtimestamp+'.xls')" value="Export to Excel" />
 					<script src="/public/scripts/table-to-excel.js"></script>
 				</div>
 				<%- include ./partials/results-summary-span.ejs %>
 				<%- include ./partials/results-table.ejs %>
+				<script src="/public/scripts/main-results.js"></script>
 				<script src="/public/scripts/results.js"></script>
 			</main>
 		</div>

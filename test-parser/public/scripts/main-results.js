@@ -89,6 +89,7 @@ function drawChart() {
 function ListJsTableData() {
     var options = {
         valueNames: [
+            "configuration",
             "pageView",
             "path",
             "description",

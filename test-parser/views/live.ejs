@@ -1,23 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		<title>Test Parser</title>
-		<!-- Bootstrap core CSS -->
-		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/bootstrap.min.css" %>" rel="stylesheet">
-		<!-- Custom styles for this template -->
-		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/dashboard.css" %>" rel="stylesheet">
-		<!-- Script - Main (Common) JS for this webapp -->
-		<script src="<%= static_path + "/scripts/main.js" %>" type="text/javascript"></script>
-		<!-- Script - Main (Common) JS for this webapp's results views -->
-		<script src="<%= static_path + "/scripts/main-results.js" %>" type="text/javascript"></script>
-		<!-- Data from controller -->
-		<script>
-			var username = "<%= username %>";
-		</script>
+		<!-- App Header -->
+		<%- include ./partials/app-header.ejs %>
 	</head>
 	<body>
 		<%- include ./partials/nav-top.ejs %>
@@ -33,6 +18,7 @@
 				</div>
 				<%- include ./partials/results-summary-span.ejs %>
 				<%- include ./partials/results-table.ejs %>
+				<script src="/public/scripts/main-results.js"></script>
 				<script src="/public/scripts/live-results.js"></script>
 			</main>
 		</div>

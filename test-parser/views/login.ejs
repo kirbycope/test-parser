@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		<title>Test Parser</title>
-		<!-- Bootstrap core CSS -->
-		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/bootstrap.min.css" %>" rel="stylesheet">
-		<!-- Custom styles for this template -->
+		<!-- Web Header -->
+		<%- include ./partials/web-header.ejs %>
+		<!-- Custom styles for this page -->
 		<link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/signin.css" %>" rel="stylesheet">
 	</head>
 	<body class="text-center">
 		<form class="form-signin" onsubmit="return submitLoginForm()">
-			<p style="margin-left: auto;margin-right: auto;font-size: 42px;color: rgb(255, 255, 255);height: 72px;width: 72px;line-height: 72px;border-radius: 25%;background-color: rgb(86, 61, 124);"> TP </p>
+			<a href="/" style="text-decoration: none;"><p style="margin-left: auto;margin-right: auto;font-size: 42px;color: rgb(255, 255, 255);height: 72px;width: 72px;line-height: 72px;border-radius: 25%;background-color: rgb(86, 61, 124);"> TP </p></a>
 			<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 			<label for="inputEmail" class="sr-only">Email address</label>
 			<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus />
