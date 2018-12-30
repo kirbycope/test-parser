@@ -65,6 +65,7 @@
     <Content Include="public\bootstrap\css\theme\default\web.css" />
     <Content Include="public\bootstrap\css\theme\default\signin.css" />
     <Content Include="public\favicon.ico" />
+    <Content Include="public\images\rawpixel-983726-unsplash.jpg" />
     <Content Include="public\scripts\nav-sidebar.js" />
     <Content Include="views\compare.ejs" />
     <Content Include="views\dashboard.ejs" />
@@ -104,6 +105,7 @@
     <Folder Include="public\jquery\" />
     <Folder Include="public\chartjs\" />
     <Folder Include="public\listjs\" />
+    <Folder Include="public\images\" />
     <Folder Include="public\scripts\" />
     <Folder Include="routes\" />
     <Folder Include="routes\api\" />

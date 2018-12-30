@@ -17,29 +17,75 @@
 		  </div>
 		</nav>
 		<!-- CTA -->
-		<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+		<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light" style="background-image: url('/public/images/rawpixel-983726-unsplash.jpg');background-repeat: no-repeat;background-size: cover;background-position:center;">
 		  <div class="col-md-5 p-lg-5 mx-auto my-5">
 			<h1 class="display-4 font-weight-normal">Test Parser</h1>
 			<p class="lead font-weight-normal">A cloud based test logging and parsing service.</p>
-			<a class="btn btn-outline-secondary" href="mailto:Inquiries@TimothyCope.com?subject=Early%20Access%20Request&body=Please grant me access to TestParser">Request Early Access</a>
+			<a class="btn btn-secondary" href="mailto:Inquiries@TimothyCope.com?subject=Early%20Access%20Request&body=Please grant me access to TestParser">Request Early Access</a>
 		  </div>
 		</div>
 		<!-- Content -->
-		<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
-		  <!-- Tile: 1 -->
-		  <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
-			<div class="my-3 py-3">
-			  <h2 class="display-5">Web API</h2>
-			  <p class="lead">The API allows you to send test results, securely.</p>
+		<div class="d-md-flex flex-md-equal w-100 my-md-3">
+			<!-- Tile: 1 -->
+			<div class="card m-md-3">
+			  <div class="bg-dark pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden" style="border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;">
+				<div class="my-3 py-3">
+				  <h2 class="display-5">Web API</h2>
+				  <p class="lead">The API allows you to send test results, securely.</p>
+				</div>
+			  </div>
+			  <div class="card-body">
+				  <p class="card-text">
+					<ul>
+					  <li>Create a new <em>result</em> set as your assembly initilizes.</li>
+					    <ul>
+						  <li>POST a new <em>result</em> using the start time.</li>
+						  <li>Records in DynamoDB with a 1MB limit.</li>
+						</ul>
+					  <li>Update the <em>result</em> set as each test cleans up.</li>
+					    <ul>
+						  <li>Capture issues and send human readable errors.</li>
+						  <li>See real-time updates in the Web App.</li>
+						</ul>
+					  <li>Update the <em>live</em> result set as each test cleans up.</li>
+					    <ul>
+						  <li>Maintain a list of tests and last results.</li>
+						  <li>Add a new test, or update existing, and update the result.</li>
+						</ul>
+					</ul>
+				  </p>
+				</div>
 			</div>
-		  </div>
 		  <!-- Tile: 2 -->
-		  <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
-			<div class="my-3 p-3">
-			  <h2 class="display-5">Web App</h2>
-			  <p class="lead">Manage and view results in parsed tables and charts.</p>
+		  <div class="card m-md-3">
+			  <div class="bg-dark pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden" style="border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;">
+				<div class="my-3 py-3">
+				  <h2 class="display-5">Web App</h2>
+				  <p class="lead">Manage and view results in parsed tables and charts.</p>
+				</div>
+			  </div>
+			  <div class="card-body">
+				  <p class="card-text">
+					<ul>
+					  <li>View parsed <em>result</em> sets.</li>
+						<ul>
+						  <li>Search within results sets.</li>
+						  <li>Filter results table.</li>
+						</ul>
+					  <li>View <em>live</em> results.</li>
+					    <ul>
+					      <li>A seperate, singular set for tests to update their last result.</li>
+						  <li>Site-wide search of <em>live</em> results.</li>
+					    </ul>
+					  <li>Compare <em>results</em> sets.</li>
+					    <ul>
+					      <li>Compare two <em>result</em> sets at a time.</li>
+						  <li>See an overall picutre using (up to) the last 10 <em>result</em> sets.</li>
+					    </ul>
+					</ul>
+				  </p>
+				</div>
 			</div>
-		  </div>
 		</div>
 		<!-- Footer -->
 		<footer class="container py-5">
@@ -49,28 +95,22 @@
 			  <small class="d-block mb-3 text-muted"style="margin-top:.5rem;">&copy; 2017-2018</small>
 			</div>
 			<div class="col-6 col-md">
-			  <h5>Features</h5>
 			  <ul class="list-unstyled text-small">
-				<li><a class="text-muted" href="#">Coming Soon</a></li>
+				<li><a class="text-muted" href="mailto:Inquiries@TimothyCope.com?subject=Contact">Contact</a></li>
 			  </ul>
 			</div>
 			<div class="col-6 col-md">
-			  <h5>Resources</h5>
 			  <ul class="list-unstyled text-small">
-				<li><a class="text-muted" href="#">API Documentation</a></li>
+				<li><a class="text-muted" href="#">Resources</a></li>
 			  </ul>
 			</div>
 			<div class="col-6 col-md">
-			  <h5>Support</h5>
 			  <ul class="list-unstyled text-small">
-				<li><a class="text-muted" href="//github.com/kirbycope/test-parser/issues">Submit Issue</a></li>
-			  </ul>
-			</div>
-			<div class="col-6 col-md">
-			  <h5>About</h5>
-			  <ul class="list-unstyled text-small">
-				<li><a class="text-muted" href="mailto:Inquiries@TimothyCope.com?subject=TestParser%20Contact">Contact</a></li>
 				<li><a class="text-muted" href="#" data-toggle="modal" data-target="#privacyModal">Privacy</a></li>
+			  </ul>
+			</div>
+			<div class="col-6 col-md">
+			  <ul class="list-unstyled text-small">
 				<li><a class="text-muted" href="#" data-toggle="modal" data-target="#termsModal">Terms</a></li>
 			  </ul>
 			</div>
