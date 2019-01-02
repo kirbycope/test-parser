@@ -174,26 +174,26 @@ var docClient = new AWS.DynamoDB.DocumentClient();
     router.post("/", function (req, res) {
         // Check for 'username' header
         if (req.headers.username) {
-            // Define DB item
-            var item = {
-                unixtimestamp: req.body.unixtimestamp,
-                username: req.headers.username
-            };
-            // DynamoDB Object
-            var params = {
-                TableName: "results",
-                Item: item
-            };
-            // POST the Object to the DataBase
-            docClient.put(params, function (err, data) {
+            // Create a new record in the 'results' table
+            createNewResultRecord(req.body.unixtimestamp, req.headers.username, function (err, data) {
                 // If the DB request returned an error
                 if (err) {
                     // Return the error to the user
                     res.send(err);
                 }
                 else {
-                    // Send the data
-                    res.status(200).send(data);
+                    // Create a new record in the 'unixtimestamps' table
+                    createNewUnixtimestampRecord(req.body.unixtimestamp, req.headers.username, function (err, data) {
+                        // If the DB request returned an error
+                        if (err) {
+                            // Return the error to the user
+                            res.send(err);
+                        }
+                        else {
+                            // Response: (200 OK) Send the data as the response body.
+                            res.status(200).send(data);
+                        }
+                    });
                 }
             });
         }
@@ -350,23 +350,26 @@ var docClient = new AWS.DynamoDB.DocumentClient();
     router.delete("/:unixtimestamp", function (req, res) {
         // Check for 'username' header
         if (req.headers.username) {
-            // DynamoDB Object
-            var params = {
-                TableName: "results",
-                Key: {
-                    "unixtimestamp": req.params.unixtimestamp
-                }
-            };
-            // Delete the Object from the DataBase
-            docClient.delete(params, function (err, data) {
+            // Delete the matching record in the 'results' table
+            deleteResultRecord(req.params.unixtimestamp, function (err, data) {
                 // If the DB request returned an error
                 if (err) {
                     // Return the error to the user
                     res.send(err);
                 }
                 else {
-                    // Response: (200 OK) Send the data as the response body.
-                    res.status(200).send(data);
+                    // Create a new record in the 'unixtimestamps' table
+                    deleteUnixtimestampRecord(req.body.unixtimestamp, req.headers.username, function (err, data) {
+                        // If the DB request returned an error
+                        if (err) {
+                            // Return the error to the user
+                            res.send(err);
+                        }
+                        else {
+                            // Response: (200 OK) Send the data as the response body.
+                            res.status(200).send(data);
+                        }
+                    });
                 }
             });
         }
@@ -378,6 +381,64 @@ var docClient = new AWS.DynamoDB.DocumentClient();
     });
 
 // #endregion Single Results Set
+
+// Convenience Method - Take 'unixtimestamp' and 'username' to create records in the 'results' table and then run the callback function.
+function createNewResultRecord(unixtimestamp, username, callback) {
+    // Define DB item
+    var item = {
+        unixtimestamp: unixtimestamp,
+        username: username
+    };
+    // DynamoDB Object
+    var params = {
+        TableName: "results",
+        Item: item
+    };
+    // POST the Object to the DataBase and then run the callback function.
+    docClient.put(params, callback);
+}
+
+// Convenience Method - Take 'unixtimestamp' and 'username' to create records in the 'unixtimestamps' table and then run the callback function.
+function createNewUnixtimestampRecord(unixtimestamp, username, callback) {
+    // Define DB item
+    var item = {
+        unixtimestamp: unixtimestamp,
+        username: username
+    };
+    // DynamoDB Object
+    var params = {
+        TableName: "unixtimestamps",
+        Item: item
+    };
+    // POST the Object to the DataBase and then run the callback function.
+    docClient.put(params, callback);
+}
+
+// Convenience Method - Delete a record, whose Partition Key matech the given 'unixtimestamp', from the  'results' table and then run the callback function.
+function deleteResultRecord(unixtimestamp) {
+    // DynamoDB Object
+    var params = {
+        TableName: "results",
+        Key: {
+            "unixtimestamp": unixtimestamp
+        }
+    };
+    // Delete the Object from the DataBase and then run the callback function.
+    docClient.delete(params, callback);
+}
+
+// Convenience Method - Delete a record, whose Partition Key matech the given 'unixtimestamp', from the  'unixtimestamps' table and then run the callback function.
+function deleteUnixtimestampRecord(unixtimestamp) {
+    // DynamoDB Object
+    var params = {
+        TableName: "unixtimestamps",
+        Key: {
+            "unixtimestamp": unixtimestamp
+        }
+    };
+    // Delete the Object from the DataBase and then run the callback function.
+    docClient.delete(params, callback);
+}
 
 // Convenience Method - Take res.data (containing the last ten unixtimestamps), get those records, and then run the callback function.
 function getLastTenResults(data, callback) {
@@ -419,7 +480,7 @@ function getAllResults(username, callback) {
 function getAllUnixTimeStamps(username, callback) {
     // DynamoDB Object
     var params = {
-        TableName: "results",
+        TableName: "unixtimestamps",
         FilterExpression: 'username = :username',
         ExpressionAttributeValues: {
             ":username": username
