@@ -358,8 +358,8 @@ var docClient = new AWS.DynamoDB.DocumentClient();
                     res.send(err);
                 }
                 else {
-                    // Create a new record in the 'unixtimestamps' table
-                    deleteUnixtimestampRecord(req.body.unixtimestamp, req.headers.username, function (err, data) {
+                    // Delete the matching record in the 'unixtimestamps' table
+                    deleteUnixtimestampRecord(req.params.unixtimestamp, function (err, data) {
                         // If the DB request returned an error
                         if (err) {
                             // Return the error to the user
@@ -415,7 +415,7 @@ function createNewUnixtimestampRecord(unixtimestamp, username, callback) {
 }
 
 // Convenience Method - Delete a record, whose Partition Key matech the given 'unixtimestamp', from the  'results' table and then run the callback function.
-function deleteResultRecord(unixtimestamp) {
+function deleteResultRecord(unixtimestamp, callback) {
     // DynamoDB Object
     var params = {
         TableName: "results",
@@ -428,7 +428,7 @@ function deleteResultRecord(unixtimestamp) {
 }
 
 // Convenience Method - Delete a record, whose Partition Key matech the given 'unixtimestamp', from the  'unixtimestamps' table and then run the callback function.
-function deleteUnixtimestampRecord(unixtimestamp) {
+function deleteUnixtimestampRecord(unixtimestamp, callback) {
     // DynamoDB Object
     var params = {
         TableName: "unixtimestamps",
