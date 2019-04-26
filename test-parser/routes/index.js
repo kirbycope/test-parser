@@ -12,4 +12,5 @@ router.get('/', function (req, res) {
     });
 });
 
+// Required (https://nodejs.org/api/modules.html#modules_module_exports)
 module.exports = router;

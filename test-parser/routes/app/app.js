@@ -82,7 +82,6 @@ router.get('/logout', function (req, res) {
     });
 });
 
-
 // Profile page "./app/profile"
 router.get('/profile', function (req, res) {
     if (req.cookies.username) {
@@ -145,4 +144,5 @@ router.get('/upload-results', function (req, res) {
     }
 });
 
+// Required (https://nodejs.org/api/modules.html#modules_module_exports)
 module.exports = router;
